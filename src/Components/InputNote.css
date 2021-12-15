@@ -1,0 +1,62 @@
+.input-note{
+    display: inline-block;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 1rem;
+    width: 480px;
+    margin: 16px;
+}
+
+.input-note input,textarea{
+    font-family: "Montserrat", sans-serif;
+    
+    background-color: none;
+    border: none;
+    outline: none;
+
+    resize: none;
+    overflow-wrap: anywhere;
+}
+
+.input-note textarea{
+    height: 5.5rem;
+    resize: none;
+    overflow-wrap: anywhere;
+}
+
+
+.input-note .title{
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.input-note .content{
+    width: 100%;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.input-note .button-container{
+    position: absolute;
+    text-align: right;
+    width: 448px;
+}
+
+.input-note .add-button{
+    width: 2rem;
+    height: 2rem;
+
+    color: #fff;
+    background-color: #f5ba13;
+    border: none;
+    border-radius: 50%;
+}
+
+.input-note .add-button:hover{
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.4);
+}

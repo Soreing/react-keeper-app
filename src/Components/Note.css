@@ -1,0 +1,42 @@
+.note{
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 1rem;
+    width: 240px;
+    margin: 16px;
+    float: left;
+}
+
+.note h1{
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.note p{
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.note .button-container{
+    width: 100%;
+    text-align: right;
+}
+
+.note .delete-button{
+    outline: none;
+    border: none;
+    padding: 0.1rem;
+
+    background-color: transparent;
+    font-weight: bold;
+    color: #e2ac15;
+
+    border: 1px solid transparent;
+}
+
+.note .delete-button:hover{
+    border: 1px solid rgba(0,0,0,0.2);
+}
