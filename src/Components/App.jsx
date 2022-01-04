@@ -1,43 +1,19 @@
 import React from "react";
-import Header from "./Header.jsx"
-import Footer from "./Footer.jsx"
-import Note from "./Note.jsx"
-import InputNote from "./InputNote.jsx"
-import "./App.css"
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Layout from "./Layout.jsx";
+import Notes from "./Notes.jsx";
+import "./App.css";
 
-
-function App(props){
-    
-    const [notes, setNotes] = React.useState([...props.notes]);
-    
-    function addNote(title, content){
-        setNotes(oldNotes => [...oldNotes, {
-            title: title,
-            content: content
-        }]);
-    }
-
-    function deleteNote(idx){
-        setNotes(oldNotes => oldNotes.filter((e,i) => i!==idx));
-    }
+function App({notes}){
 
     return(
-        <div>
-            <Header />
-            <div className="input-container">
-                <InputNote addNote={addNote}/>
-            </div>
-            {notes.map((e,i) => (
-                <Note
-                    key={i}
-                    id={i}
-                    title={e.title}
-                    content={e.content}
-                    deleteNote={deleteNote}
-                />
-            ))}
-            <Footer />
-        </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout/>}>
+            <Route index element={<Notes notes={notes}/>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     )
 }
 
