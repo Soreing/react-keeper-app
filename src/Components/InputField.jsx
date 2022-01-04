@@ -1,9 +1,8 @@
 import React from "react";
 import "./Styles/InputField.css"
 
-function InputField({label, type}){
+function InputField({label, type, value, setValue}){
     
-    const [inputValue, setInputValue] = React.useState("");
     const [display, setDisplay] = React.useState(type);
     const [labelAnim, setLabelAnim] = React.useState("");
 
@@ -27,14 +26,14 @@ function InputField({label, type}){
           <input 
           className="input-field-box"
           ref={inputRef}
-          value={inputValue}
+          value={value}
           type={display}
           onFocus={()=>setLabelAnim("shrink")}
-          onBlur={()=>{if(!inputValue){setLabelAnim("")}}}
-          onChange={(e)=>{setInputValue(e.target.value)}}
+          onBlur={()=>{if(!value){setLabelAnim("")}}}
+          onChange={(e)=>{setValue(e.target.value)}}
           />
   
-          <i className={`fas hide-button ${display === "password" ? "fa-eye" : "fa-eye-slash"}`}
+        <i className={`fas hide-button ${type !== "password" ? "" : display === "password" ? "fa-eye" : "fa-eye-slash"}`}
           tabIndex="0"
           onClick={toggleHide}
           onFocus={(e)=>{e.stopPropagation();}}

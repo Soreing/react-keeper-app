@@ -3,7 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import InputField from "./InputField.jsx";
 import "../index.css";
 
-function Login(){
+function Register(){
 
     const [emailInput, setEmailInput] = React.useState("");
     const [passwordInput, setPasswordInput] = React.useState("");
@@ -20,12 +20,12 @@ function Login(){
         setTimeout(()=>{navigate(route, { replace: true })}, 500);
     }
 
-    function login(){
+    function register(){
         if(errorRef.current){
             errorRef.current.classList.remove("shake-lr-animation");
             setTimeout(()=>{errorRef.current.classList.add("shake-lr-animation");}, 1);
         }
-        setError("Invalid username or password");
+        setError("This email is already registered");
     }
 
     useEffect(()=>{
@@ -40,27 +40,30 @@ function Login(){
 
     return (
       <div className="page">
-        <h1 className="page-title center-block mb2">Sign in to your account!</h1>
+        <h1 className="page-title center-block mb2">Create a new account!</h1>
         
         <div className="form-container start-right" ref={formRef}>
-          
           <div className="center-block mb1">
             <InputField label="Email" type="email" value={emailInput} setValue={setEmailInput} />
           </div>
   
           <div className="center-block mb1">
-            <InputField label="Password" type="password" value={passwordInput} setValue={setPasswordInput} />
+            <InputField label="New Password" type="password" value={passwordInput} setValue={setPasswordInput} />
           </div>
 
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={login}>Sign in</button>
+          <div className="center-block mb1">
+            <InputField label="Repeat Password" type="password" value={passwordInput} setValue={setPasswordInput} />
+          </div>
+  
+          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={register}>Sign up</button>
 
           {error && <p className="center-block error-text mb2"  ref={errorRef}>{error}</p>}
         </div>
 
-        <p className="center-block">Don't have an accout?</p>
-        <a className="center-block nav-link" onClick={(e)=>navigateRoute(e,"/register")}>Sign up!</a>
+        <p className="center-block">Already have an accout?</p>
+        <a className="center-block nav-link" onClick={(e)=>navigateRoute(e,"/login")}>Sign in!</a>
       </div>
     );
 }
 
-export default Login;
+export default Register;

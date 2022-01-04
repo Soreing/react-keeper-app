@@ -11,3 +11,87 @@ html{
 body{
     background: #fff;
 }
+
+.page{
+    position: relative;
+    width: 100%;
+}
+
+.center-block{
+    display: block;
+    text-align: center;
+    margin: auto;
+}
+
+.page-title{
+    font-family: "McLaren", cursive;
+    font-weight: 200;
+    max-width: 600px;
+    padding: 5rem 0 1rem 0;
+}
+
+.error-text{
+    font-size: 0.9rem;
+    color: red;
+}
+
+.nav-link{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.form-container{
+    width: 300px;
+    margin: auto;
+    position: relative;
+}
+
+.form-button{
+    width: 15rem;
+    height: 2rem;
+
+    background-color: #f5ba13;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+
+    color: #000;
+    font-family: "McLaren", cursive;
+    font-weight: 200;
+
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
+}
+
+.start-right{
+    opacity: 0;
+    left: 15rem;
+}
+
+.slide-left-appear{
+    transition: all 0.5s;
+    opacity: 1;
+    transform: translate(-15rem, 0);
+}
+
+.slide-left-disappear{
+    transition: all 0.5s;
+    opacity: 0;
+    transform: translate(-30rem);
+}
+
+.shake-lr-animation{
+    animation: shake-lr 0.5s forwards;
+}
+
+@keyframes shake-lr{
+    0% {transform: translate(0rem, 0)}
+    20% {transform: translate(0.2rem, 0)}
+    40% {transform: translate(-0.2rem, 0)}
+    60% {transform: translate(0.2rem, 0)}
+    80% {transform: translate(-0.2rem, 0)}
+    100% {transform: translate(0rem, 0)}
+}
+
+.mb1{ margin-bottom: 1rem; }
+.mb2{ margin-bottom: 2rem; }
