@@ -3,7 +3,7 @@ import Header from "./Header.jsx"
 import Footer from "./Footer.jsx"
 import Note from "./Note.jsx"
 import InputNote from "./InputNote.jsx"
-import "./Notes.css"
+import "./Styles/Notes.css"
 
 
 function Notes(props){

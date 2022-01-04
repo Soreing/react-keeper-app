@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Layout from "./Layout.jsx";
 import Notes from "./Notes.jsx";
-import "./App.css";
+import "./Styles/App.css";
 
 function App({notes}){
 

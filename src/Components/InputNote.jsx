@@ -1,6 +1,6 @@
 import React from "react";
-import "./Note.css";
-import "./InputNote.css";
+import "./Styles/Note.css";
+import "./Styles/InputNote.css";
 
 function InputNote(props){
     
