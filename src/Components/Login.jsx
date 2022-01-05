@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import InputField from "./InputField.jsx";
+import { login } from "../auth.js";
+
 import "../index.css";
 
 function Login(){
@@ -14,23 +16,39 @@ function Login(){
 
     const navigate = useNavigate();
 
-    function navigateRoute(event, route){
-        event.preventDefault();
-        formRef.current.classList.add("slide-left-disappear");
-        setTimeout(()=>{navigate(route, { replace: true })}, 500);
+    function navigateRoute(event, route, anim){
+        if(event){
+            event.preventDefault();
+        }
+
+        if(anim){
+            formRef.current.classList.add(anim.name);
+            setTimeout(()=>{navigate(route, { replace: true })}, anim.time);
+        } 
+        else {
+            navigate(route, { replace: true });
+        }
     }
 
-    function login(){
+    function showError(err){
         if(errorRef.current){
             errorRef.current.classList.remove("shake-lr-animation");
             setTimeout(()=>{errorRef.current.classList.add("shake-lr-animation");}, 1);
         }
-        setError("Invalid username or password");
+        setError(err);
     }
 
-    useEffect(()=>{
+    function signIn(){
+        login(emailInput, passwordInput).then((res)=>{
+            navigateRoute(null, "/notes", {name:"fade-out", time: 500});
+        }).catch((err)=>{
+            showError(err);
+        })
+    }
+
+    useEffect(()=>{        
         setTimeout(()=>{formRef.current.classList.add("slide-left-appear");}, 1);
-    });
+    }, []);
 
     useEffect(() => {
         if(errorRef.current){
@@ -52,13 +70,17 @@ function Login(){
             <InputField label="Password" type="password" value={passwordInput} setValue={setPasswordInput} />
           </div>
 
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={login}>Sign in</button>
+          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signIn}>Sign in</button>
 
           {error && <p className="center-block error-text mb2"  ref={errorRef}>{error}</p>}
         </div>
 
         <p className="center-block">Don't have an accout?</p>
-        <a className="center-block nav-link" onClick={(e)=>navigateRoute(e,"/register")}>Sign up!</a>
+        
+        <a className="center-block nav-link" 
+          onClick={(e)=>navigateRoute(e,"/register", {name:"slide-left-disappear", time: 500})}
+        >Sign up!</a>
+
       </div>
     );
 }

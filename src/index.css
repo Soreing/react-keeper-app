@@ -80,6 +80,11 @@ body{
     transform: translate(-30rem);
 }
 
+.fade-out{
+    transition: all 0.5s;
+    opacity: 0;
+}
+
 .shake-lr-animation{
     animation: shake-lr 0.5s forwards;
 }
