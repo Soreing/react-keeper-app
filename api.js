@@ -1,11 +1,37 @@
 import express from "express";
 import bodyparser from "body-parser";
 import cookieparser from "cookie-parser";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken"
 import cors from "cors";
 
+const dbPort = 27017;
+const dbName = "keeperAppDB";
 const secret = "Test";
 
+// Mongoose Configs
+mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`);
+
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    notes: Array,
+});
+
+const tokenSchema = new mongoose.Schema({
+    token: String,
+    exp: Number,
+});
+
+const User = mongoose.model("User", userSchema);
+const Token = mongoose.model("Token", tokenSchema);
+
+setInterval(()=>{
+    const now = Math.floor(Date.now() / 1000);
+    Token.deleteMany({ exp: {$lt: now}}, (err, res)=>{} );
+}, 60000);
+
+// Express Configs 
 const app = express();
 
 const corsOptions = {
@@ -22,26 +48,66 @@ app.use(cors(corsOptions));
 app.listen(8081);
 
 function sendToken(res, data){
+    const now = Math.floor(Date.now() / 1000);
+    
     const refToken  = jwt.sign({
         ...data,
-        iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + 60,//7200,
+        iat: now,
+        exp: now + 60,//7200,
     }, secret);
     
     const authToken = jwt.sign({
         ...data,
-        iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + 10,//120,
+        iat: now,
+        exp: now + 10,//120,
     }, secret);
 
-    res.cookie("refToken", refToken);
-    res.status(200).send(authToken);
+    const newToken = new Token({token: refToken, exp: now+60 });
+    
+    newToken.save((err)=>{
+        if(!err){
+            res.cookie("refToken", refToken);
+            res.status(200).send(authToken);
+        }
+    })
 }
 
+app.post("/auth/register", (req,res)=>{
+    if(req.body.username && req.body.password === req.body.repeat){
+        User.findOne({username: req.body.username}, (err, user)=>{
+            if (user){
+                res.status(400).send("This email is already registered");
+            }
+            else if (!err) {
+                const newUser = new User({
+                    username: req.body.username,
+                    password: req.body.password,
+                })
+
+                newUser.save((err)=>{
+                    if(!err){
+                        res.sendStatus(200);
+                    }
+                })
+            }
+        })
+    }
+    else {
+        res.status(400).send("Missing or wrong input details");
+    }
+})
+
 app.post("/auth/login", (req,res)=>{
-    console.log("Hebo");
+    
     if(req.body.username){
-        sendToken(res, {username: req.body.username});
+        User.findOne({username: req.body.username}, (err, user)=>{
+            if(user && req.body.password === user.password){
+                sendToken(res, {username: req.body.username});
+            }
+            else {
+                res.status(400).send("Invalid Username or Password");
+            }
+        });
     }
     else {
         res.status(400).send("Invalid Username or Password");
@@ -50,14 +116,25 @@ app.post("/auth/login", (req,res)=>{
 
 app.get("/auth/refresh-token", (req,res)=>{
     if(req.cookies.refToken){
-        jwt.verify(req.cookies.refToken, secret, (err, decoded)=>{
-            if(!err && decoded){
+        
+        const findTokenPr = Token.findOne({token:req.cookies.refToken});
+        const verifyPr    = new Promise( (resolve, reject)=>{
+            try{ resolve(jwt.verify(req.cookies.refToken, secret)); }
+            catch(err) {reject(err); }
+        });
+
+        Promise.all([verifyPr, findTokenPr])
+        .then( ([decoded, token]) => {
+            Token.deleteOne(token, (err) => {
                 sendToken(res, {username: decoded.username});
-            }
-            else {
-                res.sendStatus(400);
-            }
+            })
         })
+        .catch((err)=>{
+            res.sendStatus(400);
+        });
+    }
+    else {
+        res.sendStatus(400);
     }
 })
 
