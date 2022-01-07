@@ -76,8 +76,9 @@ app.post("/auth/register", (req,res)=>{
     if(req.body.username && req.body.password){
         const processedEmail = req.body.username.trim().toLowerCase();
         const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const passwordformat = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\$%@\^&;\!\?\.\+\-\*\=_]).{8,32}$/;
 
-        if(emailformat.test(processedEmail)){
+        if(emailformat.test(processedEmail) && passwordformat.test(req.body.password)){
             User.findOne({username: processedEmail}, (err, user)=>{
                 if (user){
                     res.status(400).send("This email is already registered");

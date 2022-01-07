@@ -42,6 +42,7 @@ function Register(){
         if(emailInput && passwordInput && pwdReapeatInput){
             const processedEmail = emailInput.trim().toLowerCase();
             const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            const passwordformat = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\$%@\^&;\!\?\.\+\-\*\=_]).{8,32}$/;
 
             if(passwordInput !== pwdReapeatInput){
                 showError("Passwords entered do not match");
@@ -50,6 +51,11 @@ function Register(){
 
             if(!emailformat.test(processedEmail)){
                 showError("Email address entered is not valid");
+                return;
+            }
+
+            if(!passwordformat.test(passwordInput)){
+                showError("Passwords must be between 8-32 characters and contain digits, lowercase and uppercase letters and a special character ($%@^&;!?.+-*=_)");
                 return;
             }
 
