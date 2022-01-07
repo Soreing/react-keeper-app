@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import InputField from "./InputField.jsx";
+import { register } from "../auth.js";
 import "../index.css";
 
 function Register(){
 
     const [emailInput, setEmailInput] = React.useState("");
     const [passwordInput, setPasswordInput] = React.useState("");
+    const [pwdReapeatInput, setPwdRepeatInput] = React.useState("");
     const [error, setError] = React.useState("");
     
     const formRef = React.useRef();
@@ -14,18 +16,52 @@ function Register(){
 
     const navigate = useNavigate();
 
-    function navigateRoute(event, route){
-        event.preventDefault();
-        formRef.current.classList.add("slide-left-disappear");
-        setTimeout(()=>{navigate(route, { replace: true })}, 500);
+    function navigateRoute(event, route, anim){
+        if(event){
+            event.preventDefault();
+        }
+
+        if(anim){
+            formRef.current.classList.add(anim.name);
+            setTimeout(()=>{navigate(route, { replace: true })}, anim.time);
+        } 
+        else {
+            navigate(route, { replace: true });
+        }
     }
 
-    function register(){
+    function showError(err){
         if(errorRef.current){
             errorRef.current.classList.remove("shake-lr-animation");
             setTimeout(()=>{errorRef.current.classList.add("shake-lr-animation");}, 1);
         }
-        setError("This email is already registered");
+        setError(err);
+    }
+
+    function signUp(){
+        if(emailInput && passwordInput && pwdReapeatInput){
+            const processedEmail = emailInput.trim().toLowerCase();
+            const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if(passwordInput !== pwdReapeatInput){
+                showError("Passwords entered do not match");
+                return;
+            }
+
+            if(!emailformat.test(processedEmail)){
+                showError("Email address entered is not valid");
+                return;
+            }
+
+            register(emailInput, passwordInput).then((res)=>{
+                navigateRoute(null, "/login", {name:"fade-out", time: 500});
+            }).catch((err)=>{
+                showError(err);
+            })
+        }
+        else{
+            showError("Missing required fields");
+        }
     }
 
     useEffect(()=>{
@@ -52,10 +88,10 @@ function Register(){
           </div>
 
           <div className="center-block mb1">
-            <InputField label="Repeat Password" type="password" value={passwordInput} setValue={setPasswordInput} />
+            <InputField label="Repeat Password" type="password" value={pwdReapeatInput} setValue={setPwdRepeatInput} />
           </div>
   
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={register}>Sign up</button>
+          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signUp}>Sign up</button>
 
           {error && <p className="center-block error-text mb2"  ref={errorRef}>{error}</p>}
         </div>

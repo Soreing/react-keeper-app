@@ -73,27 +73,35 @@ function sendToken(res, data){
 }
 
 app.post("/auth/register", (req,res)=>{
-    if(req.body.username && req.body.password === req.body.repeat){
-        User.findOne({username: req.body.username}, (err, user)=>{
-            if (user){
-                res.status(400).send("This email is already registered");
-            }
-            else if (!err) {
-                const newUser = new User({
-                    username: req.body.username,
-                    password: req.body.password,
-                })
+    if(req.body.username && req.body.password){
+        const processedEmail = req.body.username.trim().toLowerCase();
+        const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-                newUser.save((err)=>{
-                    if(!err){
-                        res.sendStatus(200);
-                    }
-                })
-            }
-        })
+        if(emailformat.test(processedEmail)){
+            User.findOne({username: processedEmail}, (err, user)=>{
+                if (user){
+                    res.status(400).send("This email is already registered");
+                }
+                else if (!err) {
+                    const newUser = new User({
+                        username: req.body.username,
+                        password: req.body.password,
+                    })
+
+                    newUser.save((err)=>{
+                        if(!err){
+                            res.sendStatus(200);
+                        }
+                    })
+                }
+            })
+        }
+        else{
+            res.status(400).send("Invalid input details");
+        }
     }
     else {
-        res.status(400).send("Missing or wrong input details");
+        res.status(400).send("Missing input details");
     }
 })
 

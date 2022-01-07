@@ -53,6 +53,21 @@ function isAuthenticated(jwt, getNewToken = true){
     }) ;
 }
 
+function register(usr, pwd){
+    return new Promise((resolve, reject)=>{
+        authAxios.post("/register", {
+            username: usr,
+            password: pwd
+        }).then((res)=>{
+            if(res.status == 200){
+                resolve(true);
+            } 
+        }).catch(({response})=>{
+            reject(response.data);
+        })
+    });
+}
+
 function login(usr, pwd){
     return new Promise((resolve, reject)=>{
         authAxios.post("/login", {
@@ -69,4 +84,4 @@ function login(usr, pwd){
     });
 }
 
-export {isAuthenticated, getToken, setToken, login};
+export {isAuthenticated, getToken, setToken, login, register};
