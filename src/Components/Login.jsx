@@ -39,11 +39,27 @@ function Login(){
     }
 
     function signIn(){
-        login(emailInput, passwordInput).then((res)=>{
-            navigateRoute(null, "/notes", {name:"fade-out", time: 500});
-        }).catch((err)=>{
-            showError(err);
-        })
+        
+        if(emailInput && passwordInput){
+            const processedEmail = emailInput.trim().toLowerCase();
+            const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if(emailformat.test(processedEmail)){
+                login(emailInput, passwordInput).then((res)=>{
+                    navigateRoute(null, "/notes", {name:"fade-out", time: 500});
+                }).catch((err)=>{
+                    showError(err);
+                })
+            }
+            else {
+                showError("Email address entered is not valid");
+            }
+        }
+        else{
+            showError("Missing required fields");
+        }
+
+
     }
 
     useEffect(()=>{        

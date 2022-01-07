@@ -130,6 +130,7 @@ app.get("/auth/refresh-token", (req,res)=>{
             })
         })
         .catch((err)=>{
+            res.clearCookie("refToken");
             res.sendStatus(400);
         });
     }
