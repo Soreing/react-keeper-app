@@ -53,7 +53,7 @@ function sendToken(res, data){
     const refToken  = jwt.sign({
         ...data,
         iat: now,
-        exp: now + 60,//7200,
+        exp: now + 600,//7200,
     }, secret);
     
     const authToken = jwt.sign({
@@ -130,8 +130,7 @@ app.post("/auth/login", (req,res)=>{
     if(req.body.username){
         User.findOne({username: req.body.username}, (err, user)=>{
             if(user && req.body.password === user.password){
-                console.log(user);
-                sendToken(res, {username: req.body.username});
+                sendToken(res, {id: user.id});
             }
             else {
                 res.status(400).send("Invalid Username or Password");
@@ -155,7 +154,7 @@ app.get("/auth/refresh-token", (req,res)=>{
         Promise.all([verifyPr, findTokenPr])
         .then( ([decoded, token]) => {
             Token.deleteOne(token, (err) => {
-                sendToken(res, {username: decoded.username});
+                sendToken(res, {id: decoded.id});
             })
         })
         .catch((err)=>{
@@ -204,7 +203,7 @@ app.post("/notes", verifyToken, (req,res)=>{
 
     User.updateOne( {id: req.user.id}, {$push: {notes: newNote}}, (err, done)=>{
         if(!err){
-            res.sendStatus(200);
+            res.send(newNote._id);
         } else {
             res.status(400).send(err);
         }

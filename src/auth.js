@@ -37,14 +37,9 @@ function isAuthenticated(jwt, getNewToken = true){
                 resolve(true); 
             }
             else if(getNewToken){
-                authAxios.get("/refresh-token").then((res)=>{
-                    if(res.status == 200){
-                        setToken(res.data);
-                        resolve(true);
-                    } 
-                }).catch(({response})=>{
-                    resolve(false);
-                })                
+                refreshToken()
+                .then(() => resolve(true))
+                .catch(() => resolve(false));             
             }
         }
         else {
@@ -53,18 +48,35 @@ function isAuthenticated(jwt, getNewToken = true){
     }) ;
 }
 
+function refreshToken(){
+    return new Promise((resolve, reject)=>{
+        authAxios.get("/refresh-token")
+        .then((res)=>{
+            if(res.status == 200){
+                setToken(res.data);
+                resolve(res.data);
+            } 
+        })
+        .catch(({response})=>{
+            reject(null);
+        });               
+    });
+}
+
 function register(usr, pwd){
     return new Promise((resolve, reject)=>{
         authAxios.post("/register", {
             username: usr,
             password: pwd
-        }).then((res)=>{
+        })
+        .then((res)=>{
             if(res.status == 200){
                 resolve(true);
             } 
-        }).catch(({response})=>{
-            reject(response.data);
         })
+        .catch(({response})=>{
+            reject(response.data);
+        });
     });
 }
 
@@ -73,15 +85,28 @@ function login(usr, pwd){
         authAxios.post("/login", {
             username: usr,
             password: pwd
-        }).then((res)=>{
+        })
+        .then((res)=>{
             if(res.status == 200){
                 setToken(res.data);
                 resolve(true);
             } 
-        }).catch(({response})=>{
+        })
+        .catch(({response})=>{
             reject(response.data);
         })
     });
 }
 
-export {isAuthenticated, getToken, setToken, login, register};
+function expiredTokenIntercept(error){
+    return refreshToken()
+    .then((token) => {
+        error.config.headers.Authorization = `bearer ${token}`;
+        return axios.request(error.config);
+    })
+    .catch((e)=>{
+        return Promise.reject(error);
+    });
+}
+
+export {isAuthenticated, getToken, setToken, login, register, expiredTokenIntercept};
