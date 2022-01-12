@@ -72,6 +72,25 @@ function sendToken(res, data){
     })
 }
 
+function verifyToken(req, res, next){
+    const header = req.headers.authorization;
+    
+    if(header){
+        const [type, token] = header.split(" ");
+        if(type.toLowerCase() == "bearer" && token){
+            jwt.verify(token, secret, (err, decoded) => {
+                if(!err && decoded){
+                    req.user = decoded;
+                    next();
+                } 
+                else { res.sendStatus(400); }
+            })
+        }
+        else { res.sendStatus(401);}
+    }
+    else { res.sendStatus(402);}
+}
+
 app.post("/auth/register", (req,res)=>{
     if(req.body.username && req.body.password){
         const processedEmail = req.body.username.trim().toLowerCase();
@@ -111,6 +130,7 @@ app.post("/auth/login", (req,res)=>{
     if(req.body.username){
         User.findOne({username: req.body.username}, (err, user)=>{
             if(user && req.body.password === user.password){
+                console.log(user);
                 sendToken(res, {username: req.body.username});
             }
             else {
@@ -121,7 +141,7 @@ app.post("/auth/login", (req,res)=>{
     else {
         res.status(400).send("Invalid Username or Password");
     }
-})
+});
 
 app.get("/auth/refresh-token", (req,res)=>{
     if(req.cookies.refToken){
@@ -146,8 +166,73 @@ app.get("/auth/refresh-token", (req,res)=>{
     else {
         res.sendStatus(400);
     }
-})
+});
 
-app.post("/api/notes", (req,res)=>{
+app.get("/notes", verifyToken, (req,res)=>{
+    User.findOne({_id: req.user.id}, (err, user)=>{
+        if(!err && user){
+            const notes = user.notes.map(e => {return {id:e._id.toString(), title:e.title, content:e.content}} );
+            res.json(notes);
+        } else {
+            res.status(400).send(err);
+        }
+    });
+});
 
-})
+app.get("/notes/:noteid", verifyToken, (req,res)=>{
+    User.findOne({_id: req.user.id}, (err, user)=>{
+        if(user){
+            const notes = user.notes.map(e => {return {id:e._id.toString(), title:e.title, content:e.content}} );
+            const note = notes.find(e => e.id == req.params.noteid);
+
+            if(note){
+                res.json(note);
+            } else {
+                res.status(400).send(err);
+            }
+        }
+    });
+});
+
+app.post("/notes", verifyToken, (req,res)=>{
+
+    const newNote = {
+        _id: new mongoose.Types.ObjectId(),
+        title: req.body.title,
+        content: req.body.content
+    };
+
+    User.updateOne( {id: req.user.id}, {$push: {notes: newNote}}, (err, done)=>{
+        if(!err){
+            res.sendStatus(200);
+        } else {
+            res.status(400).send(err);
+        }
+    });
+});
+
+app.delete("/notes", verifyToken, (req,res)=>{
+
+    User.updateOne( {id: req.user.id}, {notes: []}, (err, done)=>{
+        if(!err){
+            res.sendStatus(200);
+        } else {
+            res.status(400).send(err);
+        }
+    });
+});
+
+app.delete("/notes/:noteid", verifyToken, (req,res)=>{
+
+    const selector = {
+        _id: new mongoose.Types.ObjectId(req.params.noteid),
+    }; 
+
+    User.updateOne( {id: req.user.id}, {$pull: {notes: selector}}, (err, done)=>{
+        if(!err){
+            res.sendStatus(200);
+        } else {
+            res.status(400).send(err);
+        }
+    });
+});
