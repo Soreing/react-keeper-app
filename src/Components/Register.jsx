@@ -103,7 +103,7 @@ function Register(){
         </div>
 
         <p className="center-block">Already have an accout?</p>
-        <a className="center-block nav-link" onClick={(e)=>navigateRoute(e,"/login")}>Sign in!</a>
+        <a className="center-block nav-link" onClick={(e)=>navigateRoute(e,"/login", {name:"slide-left-disappear", time: 500})}>Sign in!</a>
       </div>
     );
 }

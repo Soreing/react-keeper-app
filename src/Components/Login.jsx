@@ -86,13 +86,29 @@ function Login(){
             <InputField label="Password" type="password" submit={signIn} value={passwordInput} setValue={setPasswordInput} />
           </div>
 
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signIn}>Sign in</button>
+          <button className="form-button center-block mb1" onClick={signIn}>Sign in</button>
 
           {error && <p className="center-block error-text mb2"  ref={errorRef}>{error}</p>}
+
+          <h2 className="center-block">Sign in with</h2>
+          <div className="center-block oauth-container mb2">
+            <form name="login-google" method="post" action="http://localhost:8081/auth/google">
+                <button className="oauth-button google-oauth"><i className="fab fa-google fa-2x"/></button>
+            </form>
+
+            <form name="login-google" method="post" action="http://localhost:8081/auth/facebook">
+                <button className="oauth-button facebook-oauth"><i className="fab fa-facebook-square fa-2x"/></button>
+            </form>
+
+            <form name="login-google" method="post" action="http://localhost:8081/auth/discord">
+                <button className="oauth-button discord-oauth"><i className="fab fa-discord fa-2x"/></button>
+            </form>
+
+          </div>
+
         </div>
 
         <p className="center-block">Don't have an accout?</p>
-        
         <a className="center-block nav-link" 
           onClick={(e)=>navigateRoute(e,"/register", {name:"slide-left-disappear", time: 500})}
         >Sign up!</a>

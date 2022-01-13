@@ -67,6 +67,39 @@ body{
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
 }
 
+.oauth-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.oauth-button{
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 0.5rem 0 0.5rem;
+
+    outline: none;
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.google-oauth{
+    background-color: #ffffff;
+}
+
+.facebook-oauth{
+    color: white;
+    background-color: #3b5998;
+}
+
+.discord-oauth{
+    color: white;
+    background-color: #5865F2;
+}
+
 .start-right{
     opacity: 0;
     left: 15rem;

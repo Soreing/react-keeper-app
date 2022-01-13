@@ -4,10 +4,21 @@ import cookieparser from "cookie-parser";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken"
 import cors from "cors";
+import axios from "axios";
+const ClientOAuth2 = require("client-oauth2");
 
 const dbPort = 27017;
 const dbName = "keeperAppDB";
 const secret = "Test";
+
+const discordAuth = new ClientOAuth2({
+    clientId: process.env.DISCORD_CLIENT_ID,
+    clientSecret: process.env.DISCORD_CLIENT_SECRET,
+    accessTokenUri: "https://discord.com/api/oauth2/token",
+    authorizationUri: "https://discord.com/api/oauth2/authorize",
+    redirectUri: "http://localhost:8081/auth/discord/callback",
+    scopes: ["identify", "email"]
+});
 
 // Mongoose Configs
 mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`);
@@ -15,6 +26,7 @@ mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`);
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
+    source: String,
     notes: Array,
 });
 
@@ -46,6 +58,27 @@ app.use(bodyparser.raw());
 app.use(cookieparser());
 app.use(cors(corsOptions));
 app.listen(8081);
+
+function createRefToken(data){
+    return new Promise((resolve,reject)=>{
+        const now = Math.floor(Date.now() / 1000);
+        const refToken  = jwt.sign({
+            ...data,
+            iat: now,
+            exp: now + 30,//7200,
+        }, secret);
+    
+        const newToken = new Token({token: refToken, exp: now+60 });
+        
+        newToken.save((err)=>{
+            if(!err){
+                resolve(refToken);
+            } else {
+                reject(err);
+            }
+        });
+    });
+}
 
 function sendToken(res, data){
     const now = Math.floor(Date.now() / 1000);
@@ -184,8 +217,66 @@ app.get("/auth/refresh-token", (req,res)=>{
     }
 });
 
+app.post("/auth/discord", (req,res)=>{
+    const uri = discordAuth.code.getUri()
+    res.redirect(uri);
+})
+
+app.get("/auth/discord/callback", (req,res)=>{
+    discordAuth.code.getToken(req.originalUrl)
+    .then(function (user) {
+        
+        axios.request({
+            baseURL: "https://discord.com/api",
+            url:"/users/@me",
+            method: "get",
+            headers:{
+                "Authorization": `Bearer ${user.accessToken}`
+            }
+        })
+        .then((details)=>{
+            const dbUser = {
+                username: `discord:${details.data.id}`,
+                source: "discord",
+            };
+            
+            User.findOne(dbUser, (err, user)=>{
+                if(!err){
+                    if(user){
+                        createRefToken({id: user._id.toString()})
+                        .then((token)=>{
+                            res.cookie("refToken", token)
+                            res.redirect("http://localhost:8080/notes");
+                        });
+                    } else {
+                        const newUser = new User(dbUser);
+                        newUser.save((err)=>{
+                            if(!err){
+                                createRefToken({id: newUser._id.toString()})
+                                .then((token)=>{
+                                    res.cookie("refToken", token)
+                                    res.redirect("http://localhost:8080/notes");
+                                });
+                            }
+                        })
+                    }
+                } else {
+                    //Something went wrong
+                }
+            });
+        })
+        .catch((err)=>{
+            console.log(err);
+            console.log(err.response);
+            //Something went wrong
+        });
+    })
+})
+
 app.get("/notes", verifyToken, (req,res)=>{
-    User.findOne({_id: req.user.id}, (err, user)=>{
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
+    
+    User.findOne({_id: userObjectId}, (err, user)=>{
         if(!err && user){
             const notes = user.notes.map(e => {return {id:e._id.toString(), title:e.title, content:e.content}} );
             res.json(notes);
@@ -196,7 +287,9 @@ app.get("/notes", verifyToken, (req,res)=>{
 });
 
 app.get("/notes/:noteid", verifyToken, (req,res)=>{
-    User.findOne({_id: req.user.id}, (err, user)=>{
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
+
+    User.findOne({_id: userObjectId}, (err, user)=>{
         if(user){
             const notes = user.notes.map(e => {return {id:e._id.toString(), title:e.title, content:e.content}} );
             const note = notes.find(e => e.id == req.params.noteid);
@@ -211,14 +304,14 @@ app.get("/notes/:noteid", verifyToken, (req,res)=>{
 });
 
 app.post("/notes", verifyToken, (req,res)=>{
-
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
     const newNote = {
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         content: req.body.content
     };
 
-    User.updateOne( {id: req.user.id}, {$push: {notes: newNote}}, (err, done)=>{
+    User.updateOne( {_id: userObjectId}, {$push: {notes: newNote}}, (err, done)=>{
         if(!err){
             res.send(newNote._id);
         } else {
@@ -228,8 +321,9 @@ app.post("/notes", verifyToken, (req,res)=>{
 });
 
 app.delete("/notes", verifyToken, (req,res)=>{
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
 
-    User.updateOne( {id: req.user.id}, {notes: []}, (err, done)=>{
+    User.updateOne( {_id: userObjectId}, {notes: []}, (err, done)=>{
         if(!err){
             res.sendStatus(200);
         } else {
@@ -239,12 +333,12 @@ app.delete("/notes", verifyToken, (req,res)=>{
 });
 
 app.delete("/notes/:noteid", verifyToken, (req,res)=>{
-
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
     const selector = {
         _id: new mongoose.Types.ObjectId(req.params.noteid),
     }; 
 
-    User.updateOne( {id: req.user.id}, {$pull: {notes: selector}}, (err, done)=>{
+    User.updateOne( {_id: userObjectId}, {$pull: {notes: selector}}, (err, done)=>{
         if(!err){
             res.sendStatus(200);
         } else {
