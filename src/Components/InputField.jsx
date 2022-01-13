@@ -1,7 +1,7 @@
 import React from "react";
 import "./Styles/InputField.css"
 
-function InputField({label, type, value, setValue}){
+function InputField({label, type, submit, value, setValue}){
     
     const [display, setDisplay] = React.useState(type);
     const [labelAnim, setLabelAnim] = React.useState("");
@@ -11,6 +11,12 @@ function InputField({label, type, value, setValue}){
     function toggleHide(e){
         if(type === "password"){
             setDisplay(display === "password" ? "text" : "password");
+        }
+    }
+
+    function submitOnEnter(e){
+        if(submit && e.key === "Enter"){
+            submit();
         }
     }
 
@@ -28,6 +34,7 @@ function InputField({label, type, value, setValue}){
           ref={inputRef}
           value={value}
           type={display}
+          onKeyPress={submitOnEnter}
           onFocus={()=>setLabelAnim("shrink")}
           onBlur={()=>{if(!value){setLabelAnim("")}}}
           onChange={(e)=>{setValue(e.target.value)}}

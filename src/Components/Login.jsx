@@ -79,11 +79,11 @@ function Login(){
         <div className="form-container start-right" ref={formRef}>
           
           <div className="center-block mb1">
-            <InputField label="Email" type="email" value={emailInput} setValue={setEmailInput} />
+            <InputField label="Email" type="email" submit={signIn} value={emailInput} setValue={setEmailInput} />
           </div>
   
           <div className="center-block mb1">
-            <InputField label="Password" type="password" value={passwordInput} setValue={setPasswordInput} />
+            <InputField label="Password" type="password" submit={signIn} value={passwordInput} setValue={setPasswordInput} />
           </div>
 
           <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signIn}>Sign in</button>
