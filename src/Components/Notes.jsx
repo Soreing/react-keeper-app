@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Note from "./Note.jsx"
 import InputNote from "./InputNote.jsx"
-import { expiredTokenIntercept, getToken } from "../auth.js";
+import { expiredTokenIntercept, getToken, AuthContext } from "../auth.js";
 import axios from "axios";
 import "./Styles/Notes.css"
+import { useNavigate } from "react-router-dom";
 
 
 function Notes(props){
     
     const [notes, setNotes] = React.useState([]);
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
     
     const apiAxios = axios.create({
         baseURL: "http://localhost:8081",
@@ -36,7 +39,10 @@ function Notes(props){
             }]);
         })
         .catch((err)=>{
-
+            if(err.response.status === 401){
+                auth.setLoggedIn(false);
+                navigate("/login");
+            }
         });
 
     }
@@ -51,7 +57,10 @@ function Notes(props){
             setNotes(oldNotes => oldNotes.filter(e => e.id !== id));
         })
         .catch((err)=>{
-            
+            if(err.response.status === 401){
+                auth.setLoggedIn(false);
+                navigate("/login");
+            }
         });
     }
 
@@ -65,7 +74,10 @@ function Notes(props){
             setNotes(res.data);
         })
         .catch((err)=>{
-            
+            if(err.response.status === 401){
+                auth.setLoggedIn(false);
+                navigate("/login");
+            }
         });
 
     }, []);

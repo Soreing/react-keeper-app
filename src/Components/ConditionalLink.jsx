@@ -1,18 +1,29 @@
 import React from "react"
 import {useNavigate} from "react-router-dom"
-import { getToken, isAuthenticated } from "../auth.js";
 
-function ConditionalLink({to, alt, condition, className, children}){
+function ConditionalLink({to, toEffect, alt, altEffect, condition, conditionType, className, children}){
     
     const navigate = useNavigate();
 
     function link(event){
         event.preventDefault();
 
-        isAuthenticated(getToken()).then((val)=>{
-            if(!val){ navigate(to); }
-            else { navigate(alt); }
-        });
+        function execute(result){
+            if(result){
+                toEffect();
+                navigate(to);
+            } else {
+                altEffect();
+                navigate(alt);
+            }
+        }
+
+        switch(conditionType){
+            case "promise":  condition().then((val)=> {execute(val);}); break;
+            case "function": execute(condition()); break;
+            case "value":    execute(condition); break;
+            default:         execute(condition); break;
+        }
     }
 
     return(

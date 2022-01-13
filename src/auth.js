@@ -1,3 +1,4 @@
+import React from "react";
 import base64 from "base-64"
 import axios from "axios"
 
@@ -6,6 +7,10 @@ const authAxios = axios.create({
     withCredentials: true
 });
 
+function clearToken(){
+    return localStorage.removeItem("authToken");
+}
+
 function getToken(){
     return localStorage.getItem("authToken");
 }
@@ -13,6 +18,8 @@ function getToken(){
 function setToken(token){
     return localStorage.setItem("authToken", token);
 }
+
+const AuthContext = React.createContext();
 
 function decode(jwt){
     try{
@@ -27,8 +34,9 @@ function decode(jwt){
     return undefined;
 }
 
-function isAuthenticated(jwt, getNewToken = true){
+function isAuthenticated(getNewToken = true){
     return new Promise((resolve, reject)=>{
+        const jwt = getToken();
         const payload = decode(jwt);
         const nowSeconds = Math.floor(Date.now() / 1000);
 
@@ -98,6 +106,21 @@ function login(usr, pwd){
     });
 }
 
+function logout(){
+    return new Promise((resolve, reject)=>{
+        authAxios.post("/logout")
+        .then((res)=>{
+            if(res.status == 200){
+                clearToken();
+                resolve(true);
+            } 
+        })
+        .catch(({response})=>{
+            reject(response.data);
+        })
+    });
+}
+
 function expiredTokenIntercept(error){
     return refreshToken()
     .then((token) => {
@@ -109,4 +132,4 @@ function expiredTokenIntercept(error){
     });
 }
 
-export {isAuthenticated, getToken, setToken, login, register, expiredTokenIntercept};
+export {AuthContext, isAuthenticated, login, logout, register, getToken, expiredTokenIntercept};

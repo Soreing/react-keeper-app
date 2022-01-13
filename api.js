@@ -53,7 +53,7 @@ function sendToken(res, data){
     const refToken  = jwt.sign({
         ...data,
         iat: now,
-        exp: now + 600,//7200,
+        exp: now + 30,//7200,
     }, secret);
     
     const authToken = jwt.sign({
@@ -83,12 +83,12 @@ function verifyToken(req, res, next){
                     req.user = decoded;
                     next();
                 } 
-                else { res.sendStatus(400); }
+                else { res.sendStatus(401); }
             })
         }
         else { res.sendStatus(401);}
     }
-    else { res.sendStatus(402);}
+    else { res.sendStatus(401);}
 }
 
 app.post("/auth/register", (req,res)=>{
@@ -139,6 +139,23 @@ app.post("/auth/login", (req,res)=>{
     }
     else {
         res.status(400).send("Invalid Username or Password");
+    }
+});
+
+app.post("/auth/logout", (req,res)=>{
+    
+    if(req.cookies.refToken){
+        var token = Token.findOne({token:req.cookies.refToken});
+        Token.deleteOne(token, (err) => {
+            if(!err){
+                res.clearCookie("refToken");
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+    } else {
+        res.sendStatus(200);
     }
 });
 

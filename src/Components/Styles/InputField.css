@@ -43,5 +43,4 @@
 
 .shrink{
     transform: translate(0, -0.12rem) scale(0.5);
-    color: blue;
 }

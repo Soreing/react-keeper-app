@@ -1,20 +1,22 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useContext} from "react";
 import ConditionalLink from "./ConditionalLink.jsx";
-import { getToken, isAuthenticated } from "../auth.js";
+import { isAuthenticated, AuthContext } from "../auth.js";
 import "../index.css";
 
 function Home(){
+
+    const auth = useContext(AuthContext);
 
     return (
       <div className="page">
         <h1 className="page-title center-block">Take notes on the web and carry them with you wherever you go!</h1>
 
-        <ConditionalLink className="center-block" to="login" alt="notes" 
-          condition={()=>!isAuthenticated(getToken())} 
+        <ConditionalLink className="center-block"
+          to="notes" toEffect={() => auth.setLoggedIn(true)}
+          alt="login" altEffect={() => auth.setLoggedIn(false)}
+          condition={isAuthenticated} conditionType="promise"
         >Start taking notes</ConditionalLink>
-
-        {/* <Link className="center-block" to="Login">Sign in to start taking notes</Link> */}
+        
       </div>
     );
 }

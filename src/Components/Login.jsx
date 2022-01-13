@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {useNavigate} from "react-router-dom";
 import InputField from "./InputField.jsx";
-import { login } from "../auth.js";
+import { login, AuthContext } from "../auth.js";
 
 import "../index.css";
 
@@ -10,11 +10,12 @@ function Login(){
     const [emailInput, setEmailInput] = React.useState("");
     const [passwordInput, setPasswordInput] = React.useState("");
     const [error, setError] = React.useState("");
-    
-    const formRef = React.useRef();
-    const errorRef = React.useRef();
 
     const navigate = useNavigate();
+    const auth = useContext(AuthContext);
+
+    const formRef = React.useRef();
+    const errorRef = React.useRef();
 
     function navigateRoute(event, route, anim){
         if(event){
@@ -46,6 +47,7 @@ function Login(){
 
             if(emailformat.test(processedEmail)){
                 login(emailInput, passwordInput).then((res)=>{
+                    auth.setLoggedIn(true);
                     navigateRoute(null, "/notes", {name:"fade-out", time: 500});
                 }).catch((err)=>{
                     showError(err);
@@ -58,8 +60,6 @@ function Login(){
         else{
             showError("Missing required fields");
         }
-
-
     }
 
     useEffect(()=>{        

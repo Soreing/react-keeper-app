@@ -3,6 +3,11 @@ header{
     margin: auto, -16px;
     padding: 16px 32px;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1{
@@ -10,4 +15,25 @@ header h1{
     font-family: "McLaren", cursive;
     font-weight: 200;
     cursor: pointer;
+    display: inline-block;
+}
+
+.auth-div{
+    margin-left: auto;
+    text-align: center;
+    display: inline-block;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.border-button{
+    padding: 0.12rem 1rem 0.12rem 1rem;
+    margin: 0.25rem 1rem 0.25rem 1rem;
+    background-color: transparent;
+    border: 2px white solid;
+    border-radius: 1rem;
+
+    font-family: "McLaren", cursive;
 }

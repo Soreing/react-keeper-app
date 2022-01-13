@@ -16,7 +16,7 @@ function InputField({label, type, value, setValue}){
 
     return (
       <div 
-        className="input-field-component" 
+        className="input-field-component"
         tabIndex="0" 
         onFocus={(e)=>{inputRef.current.focus()}}
       >
@@ -34,7 +34,7 @@ function InputField({label, type, value, setValue}){
           />
   
         <i className={`fas hide-button ${type !== "password" ? "" : display === "password" ? "fa-eye" : "fa-eye-slash"}`}
-          tabIndex="0"
+          tabIndex={type === "password" ? "0" : "-1"}
           onClick={toggleHide}
           onFocus={(e)=>{e.stopPropagation();}}
           />
