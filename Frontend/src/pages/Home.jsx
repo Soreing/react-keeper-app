@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
-import ConditionalLink from "./ConditionalLink.jsx";
-import { isAuthenticated, AuthContext } from "../auth.js";
-import "../index.css";
+import ConditionalLink from "../components/ConditionalLink.jsx";
+import { isAuthenticated, AuthContext } from "../helpers/authentication.js";
+import "../assets/styles/index.css";
 
 function Home(){
 

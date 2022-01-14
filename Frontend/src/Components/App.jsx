@@ -1,14 +1,13 @@
 import React, {useState} from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Layout from "./Layout.jsx";
-import Home from "./Home.jsx";
-import Login from "./Login.jsx";
-import Register from "./Register.jsx";
-import Notes from "./Notes.jsx";
-import { AuthContext } from "../auth.js";
-import "./Styles/App.css";
+import Layout from "../pages/Layout.jsx";
+import Home from "../pages/Home.jsx";
+import Login from "../pages/Login.jsx";
+import Register from "../pages/Register.jsx";
+import Notes from "../pages/Notes.jsx";
+import { AuthContext } from "../helpers/authentication.js";
 
-function App({notes}){
+function App(){
 
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -20,7 +19,7 @@ function App({notes}){
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
-              <Route path="notes" element={<Notes notes={notes}/>} />
+              <Route path="notes" element={<Notes />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -45,6 +45,10 @@ body{
     cursor: pointer;
 }
 
+.input-container{
+    text-align: center;
+}
+
 .form-container{
     width: 300px;
     margin: auto;

@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import {useNavigate} from "react-router-dom";
-import {logout, AuthContext} from "../auth.js";
-import "./Styles/Header.css";
+import {logout, AuthContext} from "../helpers/authentication.js";
+import "../assets/styles/components/Header.css";
 
 function Header(){
     const navigate = useNavigate();
     const auth = useContext(AuthContext);
     
+    // Sign out function called when the user clicks the logout button
+    // If successful, sets the user to logged out and navigates to route "/"
     function signOut(){
         logout()
         .then(()=>{

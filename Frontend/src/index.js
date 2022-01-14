@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from  "./Components/App.jsx"
-import notes from "./notes.js";
-import "./index.css";
+import App from  "./components/App.jsx"
+import "./assets/styles/index.css";
 
-ReactDOM.render(<App notes={notes} />, document.querySelector("#root"));
+ReactDOM.render(<App />, document.querySelector("#root"));

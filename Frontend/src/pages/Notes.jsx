@@ -1,25 +1,28 @@
 import React, { useEffect, useContext } from "react";
-import Note from "./Note.jsx"
-import InputNote from "./InputNote.jsx"
-import { expiredTokenIntercept, getToken, AuthContext } from "../auth.js";
-import axios from "axios";
-import "./Styles/Notes.css"
 import { useNavigate } from "react-router-dom";
+import Note from "../components/Note.jsx"
+import InputNote from "../components/InputNote.jsx"
+import { apiAxios } from "../helpers/axiosInstances";
+import { getToken, AuthContext } from "../helpers/authentication.js";
+import "../assets/styles/index.css";
 
 
-function Notes(props){
+function Notes(){
     
-    const [notes, setNotes] = React.useState([]);
-    const auth = useContext(AuthContext);
-    const navigate = useNavigate();
+    const [notes, setNotes] = React.useState([]);   // List of notes to be rendered on the page
     
-    const apiAxios = axios.create({
-        baseURL: "http://localhost:8081",
-        withCredentials: true
-    });
+    const navigate = useNavigate();                 // Navigation hook to navigate to other routes
+    const auth = useContext(AuthContext);           // Authentication context to get/set the user's logged in state
 
-    apiAxios.interceptors.response.use(null, expiredTokenIntercept)
+    // Code that runs when the session is timed out
+    // The user is set to logged out and /login is rendered
+    function sessionTimedOut(){
+        auth.setLoggedIn(false);
+        navigate("/login");
+    }
 
+    // Requests the API to add a new note for the user
+    // If the request is successful, a new note is added on the page
     function addNote(title, content){
         const newNote = {
             title: title,
@@ -28,7 +31,7 @@ function Notes(props){
         
         apiAxios.post("/notes", newNote, {
             headers: {
-              'Authorization': `bearer ${getToken()}`
+              'Authorization': `Bearer ${getToken()}`
             }
         })
         .then((res)=>{
@@ -40,17 +43,18 @@ function Notes(props){
         })
         .catch((err)=>{
             if(err.response.status === 401){
-                auth.setLoggedIn(false);
-                navigate("/login");
+                sessionTimedOut();
             }
         });
 
     }
 
+    // Requests the API to delete a specific note for the user
+    // If the request is successful, the note is removed from the page
     function deleteNote(id){
         apiAxios.delete(`/notes/${id}`, {
             headers: {
-              'Authorization': `bearer ${getToken()}`
+              'Authorization': `Bearer ${getToken()}`
             }
         })
         .then((res)=>{
@@ -58,25 +62,26 @@ function Notes(props){
         })
         .catch((err)=>{
             if(err.response.status === 401){
-                auth.setLoggedIn(false);
-                navigate("/login");
+                sessionTimedOut();
             }
         });
     }
 
+    // On first load of the page, requests the API to send all notes from the user
+    // If the request is successful, the notes are rendered.
     useEffect(()=>{        
         apiAxios.get("/notes", {
             headers: {
-              'Authorization': `bearer ${getToken()}`
+              'Authorization': `Bearer ${getToken()}`
             }
         })
         .then((res)=>{
+            auth.setLoggedIn(true);
             setNotes(res.data);
         })
         .catch((err)=>{
             if(err.response.status === 401){
-                auth.setLoggedIn(false);
-                navigate("/login");
+                sessionTimedOut();
             }
         });
 
