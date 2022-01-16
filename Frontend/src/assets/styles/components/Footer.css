@@ -1,11 +1,14 @@
 footer{
-    position: absolute;
+    margin-top: auto;
+    padding: 2.5rem 0 0.5rem 0;
     text-align: center;
-    bottom: 0;
     width: 100%;
-    height: 2.5rem;
+}
+
+footer p,a{
+    color: #ccc;
 }
 
 footer p{
-    color: #ccc;
+    margin: 5px 0;
 }

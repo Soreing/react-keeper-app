@@ -5,7 +5,7 @@ import Footer from "../components/Footer.jsx";
 
 function Layout(){
     return(
-      <div>
+      <div className="layout">
           <Header />
           <Outlet />
           <Footer />
