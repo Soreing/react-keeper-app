@@ -78,7 +78,7 @@ function Login(){
           <h2 className="center-block">Sign in with</h2>
           <div className="center-block oauth-container mb2">
             <form name="login-google" method="get" action={`${authServerDomain}/auth/google`}>
-                <button className="oauth-button google-oauth"><img width="70%" src={google_logo} /></button>
+                <button className="oauth-button google-oauth"><img width="66%" src={google_logo} /></button>
             </form>
 
             <form name="login-facebook" method="get" action={`${authServerDomain}/auth/facebook`}>
