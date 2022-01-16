@@ -4,6 +4,7 @@ import InputField from "../components/InputField.jsx";
 import { login, AuthContext } from "../helpers/authentication.js";
 import { animate, animatedNavigate } from "../helpers/common.js";
 import { Error, emailformat, authServerDomain } from "../helpers/constants.js";
+import google_logo from "../assets/svg/google_logo.svg";
 import "../assets/styles/index.css";
 
 function Login(){
@@ -22,7 +23,6 @@ function Login(){
     // On Success, the loggedIn context is set, animation is played and the /notes page is shown
     // On Failure, an error is shown with a message
     function signIn(){
-        
         if(emailInput && passwordInput){
             const email = emailInput.trim().toLowerCase();
             
@@ -78,7 +78,7 @@ function Login(){
           <h2 className="center-block">Sign in with</h2>
           <div className="center-block oauth-container mb2">
             <form name="login-google" method="get" action={`${authServerDomain}/auth/google`}>
-                <button className="oauth-button google-oauth"><i className="fab fa-google fa-2x"/></button>
+                <button className="oauth-button google-oauth"><img width="70%" src={google_logo} /></button>
             </form>
 
             <form name="login-facebook" method="get" action={`${authServerDomain}/auth/facebook`}>
