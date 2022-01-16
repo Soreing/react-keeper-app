@@ -1,3 +1,5 @@
+import crypto from "crypto";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 import {Token} from "../database.js";
 import {tokenSecret, refTokenTTL, authTokenTTL} from "./constants.js";
@@ -60,5 +62,40 @@ function redirectWithToken(res, id){
     });
 }
 
+// Generates a 32 character long code from 24 bytes of random data
+function makeRandomCode(){
+    const bytes = crypto.randomBytes(24);
+    const str   = bytes.toString("base64");
+    const code  = str.replaceAll('/', '-')
+    return code;
+}
 
-export {verifyJWTPromise, makeRefTokenPromise, makeAuthToken, redirectWithToken}
+
+function verifyEmailAPI(address){
+    return new Promise((resolve, reject)=>{resolve(true)});
+    
+    // return new Promise((resolve, reject)=>{
+    //     axios({
+    //         method: "get",
+    //         url: " https://emailverification.whoisxmlapi.com/api/v2",
+    //         params: {
+    //             apiKey: process.env.WHOISXML_APIKEY,
+    //             emailAddress: address,
+    //         }
+    //     })
+    //     .then((response)=>{
+    //         const details = response.data;
+    //         if(details){
+    //             resolve(details.formatCheck == "true"
+    //                 && details.smtpCheck == "true" 
+    //                 && details.dnsCheck == "true"
+    //             );
+    //         }
+    //     })
+    //     .catch((err)=>{
+    //         reject(err);
+    //     })
+    // })
+}
+
+export {verifyJWTPromise, makeRefTokenPromise, makeAuthToken, redirectWithToken, makeRandomCode, verifyEmailAPI}

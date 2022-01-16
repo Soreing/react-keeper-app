@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
         unique: true,
     },
     password: String,
+    verified: Boolean,
+    verCode:  String,
     source: String,
     notes: Array,
 });

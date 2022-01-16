@@ -12,6 +12,10 @@ body{
     background: #fff;
 }
 
+button{
+    cursor: pointer;
+}
+
 .page{
     position: relative;
     width: 100%;

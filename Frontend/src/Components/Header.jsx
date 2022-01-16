@@ -20,7 +20,7 @@ function Header(){
 
     return(
       <header>
-        <h1 onClick={()=>navigate("/")}>Keeper App</h1>
+        <h1 onClick={()=>navigate("/")}>Notes App</h1>
           <div className="auth-div">
             { auth.loggedIn && <p className="small-text">Signed in as<br/>XYZ</p>}
             { auth.loggedIn 

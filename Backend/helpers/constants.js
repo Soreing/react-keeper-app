@@ -12,6 +12,8 @@ const Error = {
     missingFields: "Missing required fields",
     invalidFields: "Invalid input details",
     invalidLogin: "Invalid Username or Password",
+    userNotVerified: "You need to verify your email address before you can log in",
+    emailNotValid: "This email address is not valid",
     alreadyRegistered: "This email is already registered",
 }
 
