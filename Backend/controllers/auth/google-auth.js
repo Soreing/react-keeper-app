@@ -43,7 +43,7 @@ exports.googleCallback = (req, res, next) => {
                 returnDocument:"after",
             }
 
-            // Find or Insert the user in the database by their username ("discord:discordID")
+            // Find or Insert the user in the database by their username ("google:googleID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
                 if(!findErr && record){
                     redirectWithToken(res, record._id.toString());

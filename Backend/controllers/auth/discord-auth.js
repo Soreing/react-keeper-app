@@ -32,8 +32,9 @@ exports.discordCallback = (req, res, next) => {
             headers:{
                 "Authorization": `Bearer ${user.accessToken}`
             }
-        })
+        }) // details.data => {id, email, username, discriminator, avatar(code)}
         .then((details)=>{
+            console.log(details);
             const userQuery = {
                 username: `discord:${details.data.id}`,
                 source: "discord",
