@@ -4,7 +4,7 @@ function confirmEmailTemplate(url){
 `<div style="position: relative; overflow: auto; padding-bottom: 5px">
 <div style="margin: 0px auto; width:100%; max-width: 500px; box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.2)">
   
-  <div style="width: 100%; background-color: rgb(245, 186, 19);">
+  <div style="width: 100%; background-color: rgb(45, 66, 99);">
     <div style="margin: 0px auto; padding: 25px 25px;">
       <div style="margin: 0px auto; position: relative; width: 100%; max-width: 200px;">
         <img alt="" src="http://soreing.site/logo.png" style="border: none; display: block; outline: none; text-decoration: none; height: auto; width: 100%;">
