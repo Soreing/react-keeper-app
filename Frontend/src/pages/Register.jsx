@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import InputField from "../components/InputField.jsx";
+import LoadingDots from "../components/LoadingDots.jsx";
 import { register } from "../helpers/authentication.js";
 import { animate, animatedNavigate } from "../helpers/common.js";
 import { Error, emailformat, passwordformat } from "../helpers/constants.js";
@@ -12,6 +13,7 @@ function Register(){
     const [passwordInput, setPasswordInput] = React.useState("");       // Controlled Password field on the form
     const [pwdReapeatInput, setPwdRepeatInput] = React.useState("");    // Controlled Repeat Password field on the form
     const [error, setError] = React.useState("");                       // Hidden error label for informing the user about errors
+    const [loading, setLoading] = React.useState(false);                // Loading state of the form after it's sent to the API
     
     const formRef = React.useRef();                                     // Reference to the div that contains the login form
     const errorRef = React.useRef();                                    // Reference to the paragraph element that is used as an error display
@@ -22,7 +24,7 @@ function Register(){
     // On Successful, [UNFINISHED], but redirect to "/login"
     // On Failure, an error is shown with a message
     function signUp(){
-        if(emailInput && passwordInput && pwdReapeatInput){
+        if(!loading && emailInput && passwordInput && pwdReapeatInput){
             const email = emailInput.trim().toLowerCase();
 
             if(passwordInput !== pwdReapeatInput){
@@ -35,9 +37,12 @@ function Register(){
                 showError(Error.invalidPasswordFormat);
             }
             else {
+                setLoading(true);
                 register(emailInput, passwordInput).then((res)=>{
                     animatedNavigate(navigate, "/login", formRef, {name:"fade-out", time: 500});
+                    setLoading(false);
                 }).catch((err)=>{
+                    setLoading(false);
                     showError(err);
                 })
             }
@@ -78,7 +83,7 @@ function Register(){
             <InputField label="Repeat Password" type="password" submit={signUp} value={pwdReapeatInput} setValue={setPwdRepeatInput} />
           </div>
   
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signUp}>Sign up</button>
+          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signUp}>{loading ? <LoadingDots /> : <span>Sign up</span>}</button>
 
           {error && <p className="center-block error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
         </div>
