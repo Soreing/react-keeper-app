@@ -25,7 +25,7 @@ function Header(){
             { auth.loggedIn && <p className="small-text">Signed in as<br/>XYZ</p>}
             { auth.loggedIn 
               ? <button className="border-button" onClick={signOut}>Log Out</button>
-              : <button className="border-button">Log In</button>
+              : <button className="border-button" onClick={()=>{navigate("/login")}}>Log In</button>
             }
           </div>
       </header>

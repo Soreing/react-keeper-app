@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import InputField from "../components/InputField.jsx";
 import LoadingDots from "../components/LoadingDots.jsx";
-import { register } from "../helpers/authentication.js";
+import { isAuthenticated, register, AuthContext } from "../helpers/authentication.js";
 import { animate, animatedNavigate } from "../helpers/common.js";
 import { Error, emailformat, passwordformat } from "../helpers/constants.js";
 import "../assets/styles/index.css";
@@ -19,6 +19,7 @@ function Register(){
     const errorRef = React.useRef();                                    // Reference to the paragraph element that is used as an error display
 
     const navigate = useNavigate();                                     // Navigation hook to navigate to other routes
+    const auth = useContext(AuthContext);                           // Authentication context to get/set the user's logged in state
 
     // Attempts to register the user using email and password entered
     // On Successful, [UNFINISHED], but redirect to "/login"
@@ -64,6 +65,15 @@ function Register(){
     // The login form starts by sliding in from the right
     useEffect(()=>{        
         animate(formRef, "slide-left-appear");
+
+        // Check if the user is logged in when the page is loaded  
+        isAuthenticated()
+        .then((valid)=>{
+            auth.setLoggedIn(valid);
+            if(valid){
+                navigate("/notes", { replace: true });
+            }
+        });
     }, []);
 
     return (

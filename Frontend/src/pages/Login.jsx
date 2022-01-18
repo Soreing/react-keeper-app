@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import {useNavigate} from "react-router-dom";
 import InputField from "../components/InputField.jsx";
-import { login, AuthContext } from "../helpers/authentication.js";
+import { isAuthenticated, login, AuthContext } from "../helpers/authentication.js";
 import { animate, animatedNavigate } from "../helpers/common.js";
 import { Error, emailformat, authServerDomain } from "../helpers/constants.js";
 import google_logo from "../assets/svg/google_logo.svg";
@@ -55,6 +55,15 @@ function Login(){
     // The login form starts by sliding in from the right
     useEffect(()=>{        
         animate(formRef, "slide-left-appear");
+
+        // Check if the user is logged in when the page is loaded     
+        isAuthenticated()
+        .then((valid)=>{
+            auth.setLoggedIn(valid);
+            if(valid){
+                navigate("/notes", { replace: true });
+            }
+        });
     }, []);
 
     return (
