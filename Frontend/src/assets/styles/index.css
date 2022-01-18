@@ -28,11 +28,16 @@ button{
     width: 100%;
 }
 
+.center-container{
+    text-align: center;
+}
+
 .center-block{
     display: block;
     text-align: center;
     margin: auto;
 }
+
 
 .page-title{
     font-family: "McLaren", cursive;

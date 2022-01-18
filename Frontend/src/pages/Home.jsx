@@ -8,10 +8,10 @@ function Home(){
     const auth = useContext(AuthContext);
 
     return (
-      <div className="page">
+      <div className="page center-container">
         <h1 className="page-title center-block">Take notes on the web and carry them with you wherever you go!</h1>
 
-        <ConditionalLink className="center-block"
+        <ConditionalLink className="nav-link"
           to="notes" toEffect={() => auth.setLoggedIn(true)}
           alt="login" altEffect={() => auth.setLoggedIn(false)}
           condition={isAuthenticated} conditionType="promise"

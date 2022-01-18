@@ -58,7 +58,7 @@ function Login(){
     }, []);
 
     return (
-      <div className="page">
+      <div className="page center-container">
         <h1 className="page-title center-block mb2">Sign in to your account!</h1>
         
         <div className="form-container start-right" ref={formRef}>
@@ -93,8 +93,8 @@ function Login(){
 
         </div>
 
-        <p className="center-block">Don&apos;t have an accout?</p>
-        <a className="center-block nav-link" 
+        <p >Don&apos;t have an accout?</p>
+        <a className="nav-link" 
           onClick={(e)=>{ 
             e.preventDefault(); 
             animatedNavigate(navigate, "/register", formRef, {name:"slide-left-disappear", time: 500}); 

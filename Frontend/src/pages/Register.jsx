@@ -67,7 +67,7 @@ function Register(){
     }, []);
 
     return (
-      <div className="page">
+      <div className="page center-container">
         <h1 className="page-title center-block mb2">Create a new account!</h1>
         
         <div className="form-container start-right" ref={formRef}>
@@ -88,8 +88,8 @@ function Register(){
           {error && <p className="center-block error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
         </div>
 
-        <p className="center-block">Already have an accout?</p>
-        <a className="center-block nav-link" 
+        <p>Already have an accout?</p>
+        <a className="nav-link" 
           onClick={(e)=>{ 
             e.preventDefault(); 
             animatedNavigate(navigate, "/login", formRef, {name:"slide-left-disappear", time: 500}); 
