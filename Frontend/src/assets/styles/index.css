@@ -16,6 +16,7 @@ button{
     cursor: pointer;
 }
 
+/* Layout Affecting Styles */
 .layout{
     min-height: 100vh;
     display: flex;
@@ -23,27 +24,52 @@ button{
     overflow-x: hidden;
 }
 
-.page{
-    position: relative;
-    width: 100%;
-}
-
 .center-container{
     text-align: center;
 }
 
-.center-block{
-    display: block;
-    text-align: center;
+.center{
     margin: auto;
 }
 
+.mb1{ margin-bottom: 1rem; }
+.mb2{ margin-bottom: 2rem; }
+.mb3{ margin-bottom: 3rem; }
+.mb4{ margin-bottom: 4rem; }
+.mb5{ margin-bottom: 5rem; }
 
-.page-title{
-    font-family: "McLaren", cursive;
-    font-weight: 200;
+.mt1{ margin-top: 1rem; }
+.mt2{ margin-top: 2rem; }
+.mt3{ margin-top: 3rem; }
+.mt4{ margin-top: 4rem; }
+.mt5{ margin-top: 5rem; }
+
+/* Generic Page Element Styles */
+.page{
+    width: 90%;
+    margin: 0 auto 0 auto;
+    position: relative;
+}
+
+.title{
     max-width: 600px;
-    padding: 5rem 0 1rem 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title-text,.big-text,.small-text,.error-text,.nav-link{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+}
+
+.title-text{
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.big-text{
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .small-text{
@@ -61,18 +87,15 @@ button{
     cursor: pointer;
 }
 
-.input-container{
-    text-align: center;
-}
-
+/* Form Specific Styles */
 .form-container{
-    width: 300px;
+    width: 250px;
     margin: auto;
     position: relative;
 }
 
 .form-button{
-    width: 15rem;
+    width: 100%;
     height: 2rem;
 
     background-color: #2D4263;
@@ -87,6 +110,7 @@ button{
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
 }
 
+/* OAuth Styles */
 .oauth-container{
     display: flex;
     flex-direction: row;
@@ -115,15 +139,18 @@ button{
 }
 
 .facebook-oauth{
+    font-size: 1.7rem;
     color: white;
     background-color: #3b5998;
 }
 
 .discord-oauth{
+    font-size: 1.7rem;
     color: white;
     background-color: #5865F2;
 }
 
+/* Animation Styles */
 .start-right{
     opacity: 0;
     left: 15rem;
@@ -159,5 +186,9 @@ button{
     100% {transform: translate(0rem, 0)}
 }
 
-.mb1{ margin-bottom: 1rem; }
-.mb2{ margin-bottom: 2rem; }
+/* Media Break Points */
+@media screen and (max-width: 992px){
+    :root{
+        font-size: 14px;
+    }
+}

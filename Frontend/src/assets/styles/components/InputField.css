@@ -1,8 +1,9 @@
 .input-field-component{
     display: inline-block;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 0.8rem 0px 0.8rem;
+    width: 100%;
 
-    cursor:text;
+    cursor: text;
     
     border: 1px solid black;
     border-radius: 5px;
@@ -25,6 +26,7 @@
 .input-field-box{
     position: relative;
     bottom: 0.25rem;
+    text-align: left;
 }
 
 .input-field-box input{
@@ -33,10 +35,11 @@
     border: none;
     outline: none;
     background-color: transparent;
+    width: 90%;
 }
 
 .hide-button{
-    width: 20px;
+    width: 10%;
     text-align: center;
     cursor:pointer;
 }

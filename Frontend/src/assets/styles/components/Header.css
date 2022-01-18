@@ -1,6 +1,6 @@
 header{
     background-color: #2D4263;
-    padding: 16px 32px;
+    padding: 16px 16px;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 
     display: flex;
@@ -9,10 +9,11 @@ header{
     align-items: center;
 }
 
-header h1{
+.header-text{
     color: #fff;
     font-family: "McLaren", cursive;
     font-weight: 200;
+    font-size: 2rem;
     cursor: pointer;
     display: inline-block;
 }

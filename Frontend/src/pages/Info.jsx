@@ -10,7 +10,7 @@ Info.propTypes = {
 function Info({text}){
     return (
       <div className="page center-container">
-        <h1 className="page-title center-block">{text}</h1>
+        <h1 className="title title-text mt5 mb2">{text}</h1>
       </div>
     );
 }

@@ -78,24 +78,24 @@ function Register(){
 
     return (
       <div className="page center-container">
-        <h1 className="page-title center-block mb2">Create a new account!</h1>
+        <h1 className="title title-text mt5 mb2">Create a new account!</h1>
         
         <div className="form-container start-right" ref={formRef}>
-          <div className="center-block mb1">
+          <div className="mb1">
             <InputField label="Email" type="email" submit={signUp} value={emailInput} setValue={setEmailInput} />
           </div>
   
-          <div className="center-block mb1">
+          <div className="mb1">
             <InputField label="New Password" type="password" submit={signUp} value={passwordInput} setValue={setPasswordInput} />
           </div>
 
-          <div className="center-block mb1">
+          <div className="mb1">
             <InputField label="Repeat Password" type="password" submit={signUp} value={pwdReapeatInput} setValue={setPwdRepeatInput} />
           </div>
   
-          <button className={`form-button center-block ${error?"mb1":"mb2"}`} onClick={signUp}>{loading ? <LoadingDots /> : <span>Sign up</span>}</button>
+          <button className="form-button mb1" onClick={signUp}>{loading ? <LoadingDots /> : <span>Sign up</span>}</button>
 
-          {error && <p className="center-block error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
+          {error && <p className="error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
         </div>
 
         <p>Already have an accout?</p>

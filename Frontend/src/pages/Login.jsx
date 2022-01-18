@@ -68,41 +68,41 @@ function Login(){
 
     return (
       <div className="page center-container">
-        <h1 className="page-title center-block mb2">Sign in to your account!</h1>
+        <h1 className="title title-text mt5 mb2">Sign in to your account!</h1>
         
         <div className="form-container start-right" ref={formRef}>
           
-          <div className="center-block mb1">
+          <div className="mb1">
             <InputField label="Email" type="email" submit={signIn} value={emailInput} setValue={setEmailInput} />
           </div>
   
-          <div className="center-block mb1">
+          <div className="mb1">
             <InputField label="Password" type="password" submit={signIn} value={passwordInput} setValue={setPasswordInput} />
           </div>
 
-          <button className="form-button center-block mb1" onClick={signIn}>Sign in</button>
+          <button className="form-button mb1" onClick={signIn}>Sign in</button>
 
-          {error && <p className="center-block error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
+          {error && <p className="error-text mb2 shake-lr-animation"  ref={errorRef}>{error}</p>}
 
-          <h2 className="center-block">Sign in with</h2>
-          <div className="center-block oauth-container mb2">
+          <h2 className="big-text">Sign in with</h2>
+          <div className="oauth-container mb2">
             <form name="login-google" method="get" action={`${authServerDomain}/auth/google`}>
                 <button className="oauth-button google-oauth"><img width="66%" src={google_logo} /></button>
             </form>
 
             <form name="login-facebook" method="get" action={`${authServerDomain}/auth/facebook`}>
-                <button className="oauth-button facebook-oauth"><i className="fab fa-facebook-square fa-2x"/></button>
+                <button className="oauth-button facebook-oauth"><i className="fab fa-facebook-square"/></button>
             </form>
 
             <form name="login-discord" method="get" action={`${authServerDomain}/auth/discord`}>
-                <button className="oauth-button discord-oauth"><i className="fab fa-discord fa-2x"/></button>
+                <button className="oauth-button discord-oauth"><i className="fab fa-discord"/></button>
             </form>
 
           </div>
 
         </div>
 
-        <p >Don&apos;t have an accout?</p>
+        <p>Don&apos;t have an accout?</p>
         <a className="nav-link" 
           onClick={(e)=>{ 
             e.preventDefault(); 

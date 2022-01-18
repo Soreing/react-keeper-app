@@ -17,7 +17,7 @@ function Home(){
 
     return (
       <div className="page center-container">
-        <h1 className="page-title center-block">Take notes on the web and carry them with you wherever you go!</h1>
+        <h1 className="title title-text mt5 mb2">Take notes on the web and carry them with you wherever you go!</h1>
 
         <ConditionalLink className="nav-link"
           to="notes" toEffect={() => auth.setLoggedIn(true)}

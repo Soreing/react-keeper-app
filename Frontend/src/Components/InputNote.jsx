@@ -56,7 +56,7 @@ function InputNote({addNote}){
             </textarea>
             
             <div className="button-container">
-                <button className="add-button" onClick={submitNote}>Add</button>
+                <button className="add-button" onClick={submitNote}><i className="fas fa-plus"></i></button>
             </div>
         </div>
     );

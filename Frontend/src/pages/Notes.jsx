@@ -88,8 +88,8 @@ function Notes(){
     }, []);
 
     return(
-        <div>
-            <div className="input-container">
+        <div className="page center-container">
+            <div className="center-container">
                 <InputNote addNote={addNote}/>
             </div>
             {notes.map(e => (

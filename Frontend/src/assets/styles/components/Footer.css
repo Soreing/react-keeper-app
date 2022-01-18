@@ -5,10 +5,12 @@ footer{
     width: 100%;
 }
 
-footer p,a{
+footer p{
     color: #ccc;
+    margin: 5px 0;
 }
 
-footer p{
+footer a{
+    color: #ccc;
     margin: 5px 0;
 }
