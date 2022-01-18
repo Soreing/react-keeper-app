@@ -97,7 +97,7 @@ exports.verify = (req, res, next) => {
                     redirectWithToken(res, record._id.toString());
                 }
                 else {
-                    res.sendStatus(404);
+                    res.redirect("http://localhost:8080/bad-token");
                 }
             }
             else{

@@ -39,7 +39,7 @@ function Register(){
             else {
                 setLoading(true);
                 register(emailInput, passwordInput).then((res)=>{
-                    animatedNavigate(navigate, "/login", formRef, {name:"fade-out", time: 500});
+                    animatedNavigate(navigate, "/verification", formRef, {name:"fade-out", time: 500});
                     setLoading(false);
                 }).catch((err)=>{
                     setLoading(false);
