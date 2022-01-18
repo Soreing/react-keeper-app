@@ -21,7 +21,7 @@ function confirmEmailTemplate(url){
   <div style="width: 100%; background-color: rgb(255, 255, 255);">
     <div style="margin: 0px auto; padding: 25px 25px; text-align: center;">
       <a href="${url}">              
-        <div style="background-color: rgb(245, 186, 19); border: none; cursor: pointer; display: inline-block; padding: 10px 25px;">
+        <div style="background-color: rgb(45, 66, 99); border: none; cursor: pointer; display: inline-block; padding: 10px 25px;">
           <span style="color:#ffffff; font-family:Arial; font-size:14px; text-decoration: none;"><strong>CONFIRM EMAIL</strong></span>
         </div>
       </a>
