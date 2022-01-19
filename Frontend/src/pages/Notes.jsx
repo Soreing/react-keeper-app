@@ -92,14 +92,16 @@ function Notes(){
             <div className="center-container">
                 <InputNote addNote={addNote}/>
             </div>
-            {notes.map(e => (
-                <Note
-                    key={e.id}
-                    title={e.title}
-                    content={e.content}
-                    deleteNote={()=>deleteNote(e.id)}
-                />
-            ))}
+            <div className="notes-container">
+                {notes.map(e => (
+                    <Note
+                        key={e.id}
+                        title={e.title}
+                        content={e.content}
+                        deleteNote={()=>deleteNote(e.id)}
+                    />
+                ))}
+            </div>
         </div>
     )
 }

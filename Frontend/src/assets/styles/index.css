@@ -110,6 +110,12 @@ button{
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
 }
 
+/* Notes Page Container */
+.notes-container {
+    column-count: 4;
+    column-gap: 1rem;
+}
+
 /* OAuth Styles */
 .oauth-container{
     display: flex;
@@ -190,5 +196,29 @@ button{
 @media screen and (max-width: 992px){
     :root{
         font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .notes-container {
+        column-count: 1;
+    }
+}
+
+@media only screen and (min-width: 600px){
+    .notes-container {
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 992px){
+    .notes-container {
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 1600px){
+    .notes-container {
+        column-count: 4;
     }
 }

@@ -2,12 +2,13 @@
     background: #fff;
     border-radius: 7px;
     box-shadow: 0 2px 5px #ccc;
+
     padding: 1rem;
-    /* min-width: 232px;
-    max-width: 30%; */
-    margin: 0.5rem;
-    float: left;
+    margin: 0.5rem 0;
+
+    width: 100%;
     text-align: left;
+    display: inline-block;
 }
 
 .note h1{
@@ -40,41 +41,3 @@
 .note .delete-button:hover{
     text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
 }
-
-
- @media screen and (max-width: 600px) {
-    .note{
-        min-width: 0%;
-        max-width: 100%;
-        width: 46%;
-        margin: 0.5rem 2%;
-    }
- }
-
- @media only screen and (min-width: 600px) {
-    .note{
-        width: 46%;
-        margin: 0.5rem min(0.5rem, 2%);
-    }
- }
- 
- @media only screen and (min-width: 900px) {
-    .note{
-        width: 31%;
-        margin: 0.5rem min(0.5rem, 2%);
-    }
- }
- 
- @media only screen and (min-width: 1200px) {
-    .note{
-        width: 31%;
-        margin: 0.5rem min(0.5rem, 2%);
-    }
- }
- 
- @media only screen and (min-width: 1200px) {
-    .note{
-        width: 23%;
-        margin: 0.5rem min(0.5rem, 2%);
-    }
- } 
