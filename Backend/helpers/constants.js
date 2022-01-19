@@ -1,3 +1,5 @@
+import fs from "fs";
+
 // Email format regular expression
 const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -24,6 +26,10 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 
+const privateKey  = process.env.SSL ? fs.readFileSync(process.env.SSLKEY_PATH, "utf8")  : "";
+const certificate = process.env.SSL ? fs.readFileSync(process.env.SSLCERT_PATH, "utf8") : "";
+const credentials = {key: privateKey, cert: certificate};
+
 const tokenSecret  = process.env.TOKENSECRET;   // Secret to sign JWT tokens with
 const refTokenTTL  = 30;                        // Time To Live expiry in seconds for the Refresh Token
 const authTokenTTL = 10;                        // Time To Live expiry in seconds for the Auth Token
@@ -38,6 +44,9 @@ export {
     emailformat,
     passwordformat,
     corsOptions,
+    privateKey,
+    certificate,
+    credentials,
     tokenSecret,
     refTokenTTL,
     authTokenTTL,
