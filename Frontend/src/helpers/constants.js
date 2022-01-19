@@ -8,8 +8,8 @@ const emailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
 const passwordformat = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$%@^&;!?.+\-*=_]).{8,32}$/;
 
 
-const authServerDomain = "http://localhost:8081";   // Base URL of the authentication server
-const apiServerDomain  = "http://localhost:8081";   // Base URL of the api server
+const authServerDomain = process.env.AUTH_SERVER;   // Base URL of the authentication server
+const apiServerDomain  = process.env.API_SERVER;    // Base URL of the api server
 
 // Error message constants
 const Error = {

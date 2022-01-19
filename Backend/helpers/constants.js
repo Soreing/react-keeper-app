@@ -19,7 +19,7 @@ const Error = {
 
 // Header Options for Cross Origin Resource Sharing
 const corsOptions = {
-    origin: "http://localhost:8080",
+    origin: process.env.HOSTING_DOMAIN,
     credentials: true,
     optionsSuccessStatus: 200
 }
@@ -31,7 +31,7 @@ const authTokenTTL = 10;                        // Time To Live expiry in second
 const dbPort = process.env.DBPORT;              // Port number of the Mongoose Database
 const dbName = process.env.DBNAME;              // Name of the Mongoose Database
 
-const apiPort = 8081;                           // Port number the API is running on
+const apiPort = process.env.API_PORT;           // Port number the API is running on
 
 export {
     Error,

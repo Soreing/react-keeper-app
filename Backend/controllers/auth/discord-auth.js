@@ -8,7 +8,7 @@ const discordAuth = new ClientOAuth2({
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
     accessTokenUri: "https://discord.com/api/oauth2/token",
     authorizationUri: "https://discord.com/api/oauth2/authorize",
-    redirectUri: "http://localhost:8081/auth/discord/callback",
+    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/discord/callback`,
     scopes: ["identify", "email"]
 });
 
@@ -62,6 +62,6 @@ exports.discordCallback = (req, res, next) => {
     })
     // The user likely rejected the 3rd Party authentication
     .catch((err)=>{
-        res.redirect("http://localhost:8080/login");
+        res.redirect(`${process.env.HOSTING_DOMAIN}/login`);
     })
 }

@@ -8,7 +8,7 @@ const facebookAuth = new ClientOAuth2({
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     accessTokenUri: "https://graph.facebook.com/v12.0/oauth/access_token",
     authorizationUri: "https://www.facebook.com/v12.0/dialog/oauth",
-    redirectUri: "http://localhost:8081/auth/facebook/callback",
+    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/facebook/callback`,
     scopes: ["email", "public_profile"]
 });
 
@@ -76,6 +76,6 @@ exports.facebookCallback = (req, res, next) => {
     })
     // The user likely rejected the 3rd Party authentication
     .catch((err)=>{
-        res.redirect("http://localhost:8080/login");
+        res.redirect(`${process.env.HOSTING_DOMAIN}/login`);
     })
 }

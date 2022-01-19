@@ -1,5 +1,5 @@
 {
-  "name": "udemy-react",
+  "name": "notes-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -37,6 +37,7 @@
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^8.6.0",
     "eslint-plugin-react": "^7.28.0",
     "file-loader": "^6.2.0",
