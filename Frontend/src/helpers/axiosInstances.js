@@ -4,7 +4,7 @@ import {authServerDomain, apiServerDomain} from "./constants.js";
 
 // Authentication Axios instance configured to target the api's URL and port
 const apiAxios = axios.create({
-    baseURL: `${apiServerDomain}`,
+    baseURL: `${apiServerDomain}/api`,
     withCredentials: true
 });
 

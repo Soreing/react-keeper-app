@@ -10,10 +10,10 @@ import {
 
 const router = express.Router();
 
-router.get("/notes", verifyAuthToken, getAllNotes);
-router.get("/notes/:noteid", verifyAuthToken, getOneNote);
-router.post("/notes", verifyAuthToken, createOneNote);
-router.delete("/notes", verifyAuthToken, deleteAllNotes);
-router.delete("/notes/:noteid", verifyAuthToken, deleteOneNote);
+router.get("/api/notes", verifyAuthToken, getAllNotes);
+router.get("/api/notes/:noteid", verifyAuthToken, getOneNote);
+router.post("/api/notes", verifyAuthToken, createOneNote);
+router.delete("/api/notes", verifyAuthToken, deleteAllNotes);
+router.delete("/api/notes/:noteid", verifyAuthToken, deleteOneNote);
 
 export default router;
