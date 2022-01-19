@@ -53,13 +53,18 @@ function makeAuthToken(data){
     }, tokenSecret);
 }
 
-// Creates a Refresh Token and redirects the request back to the app
-function redirectWithToken(res, id){
+// Creates a Refresh Token and redirects the request to a page on the webserver
+function redirectWithToken(res, id, route){
     makeRefTokenPromise({id: id})
     .then((token)=>{
         res.cookie("refToken", token)
-        res.redirect("http://localhost:8080/notes");
+        res.redirect(`${process.env.HOSTING_DOMAIN}${route}`);
     });
+}
+
+// Simply redirects the request to a page on the webserver
+function redirectSimple(res, route){
+    res.redirect(`${process.env.HOSTING_DOMAIN}${route}`);
 }
 
 // Generates a 32 character long code from 24 bytes of random data
@@ -98,4 +103,4 @@ function verifyEmailAPI(address){
     // })
 }
 
-export {verifyJWTPromise, makeRefTokenPromise, makeAuthToken, redirectWithToken, makeRandomCode, verifyEmailAPI}
+export {verifyJWTPromise, makeRefTokenPromise, makeAuthToken, redirectWithToken, redirectSimple, makeRandomCode, verifyEmailAPI}

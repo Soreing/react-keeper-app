@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import {User} from "../../database.js";
-import {makeRefTokenPromise, makeAuthToken, makeRandomCode, verifyEmailAPI, redirectWithToken} from "../../helpers/common.js";
+import {makeRefTokenPromise, makeAuthToken, makeRandomCode, verifyEmailAPI, redirectWithToken, redirectSimple} from "../../helpers/common.js";
 import {confirmEmailTemplate} from "../../helpers/templates.js";
 import {Error, passwordformat, emailformat} from "../../helpers/constants.js";
 import {transporter} from "../../helpers/mailserver.js";
@@ -42,7 +42,7 @@ exports.register = (req, res, next) => {
                                     to:   newUser.username,
                                     subject: "Notes App Account Verification",
                                     text: "[TO BE FILLED IN]",
-                                    html: confirmEmailTemplate(`https://api-notes.soreing.site/auth/verify/${newUser.verCode}`),
+                                    html: confirmEmailTemplate(`${process.env.AUTH_SERVER}/auth/verify/${newUser.verCode}`),
                                 }, (emailErr, info)=>{
                                     if(!emailErr){
                                         res.sendStatus(200);
@@ -97,7 +97,7 @@ exports.verify = (req, res, next) => {
                     redirectWithToken(res, record._id.toString());
                 }
                 else {
-                    res.redirect("http://localhost:8080/bad-token");
+                    redirectSimple("/bad-token");
                 }
             }
             else{

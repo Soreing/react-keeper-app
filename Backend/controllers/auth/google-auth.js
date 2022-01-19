@@ -1,7 +1,7 @@
 import axios from "axios";
 import ClientOAuth2 from "client-oauth2";
 import {User} from "../../database.js";
-import { redirectWithToken } from "../../helpers/common.js";
+import { redirectWithToken, redirectSimple } from "../../helpers/common.js";
 
 const googleAuth = new ClientOAuth2({
     clientId: process.env.GOOGLE_CLIENT_ID,
@@ -46,7 +46,7 @@ exports.googleCallback = (req, res, next) => {
             // Find or Insert the user in the database by their username ("google:googleID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
                 if(!findErr && record){
-                    redirectWithToken(res, record._id.toString());
+                    redirectWithToken(res, record._id.toString(), "/notes");
                 }
                 else {
                     console.log(findErr);
@@ -61,6 +61,6 @@ exports.googleCallback = (req, res, next) => {
     })
     // The user likely rejected the 3rd Party authentication
     .catch((err)=>{
-        res.redirect(`${process.env.HOSTING_DOMAIN}/login`);
+        redirectSimple("/login");
     })
 }
