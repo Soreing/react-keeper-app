@@ -8,7 +8,7 @@ const googleAuth = new ClientOAuth2({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     accessTokenUri: "https://oauth2.googleapis.com/token",
     authorizationUri: "https://accounts.google.com/o/oauth2/v2/auth",
-    redirectUri: `${process.env.HOSTING_DOMAIN}auth/google/callback`,
+    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/google/callback`,
     scopes: ["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
 });
 
