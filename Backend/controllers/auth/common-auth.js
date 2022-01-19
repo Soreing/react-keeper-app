@@ -1,6 +1,6 @@
 import {Token} from "../../database.js";
 import {verifyJWTPromise, makeRefTokenPromise, makeAuthToken} from "../../helpers/common.js";
-import {tokenSecret} from "../../helpers/constants.js";
+import {tokenSecret, cookieOptions} from "../../helpers/constants.js";
 
 // Logs the user out of the system
 // If the request has a refresh token, try to delete it from the database
@@ -38,7 +38,7 @@ exports.refreshAuthToken = (req, res, next) => {
                     makeRefTokenPromise(data)
                     .then((refToken)=>{
                         const authToken =  makeAuthToken(data);
-                        res.cookie("refToken", refToken);
+                        res.cookie("refToken", refToken, cookieOptions);
                         res.status(200).send(authToken);
                     });
                 }

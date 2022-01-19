@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import {User} from "../../database.js";
 import {makeRefTokenPromise, makeAuthToken, makeRandomCode, verifyEmailAPI, redirectWithToken, redirectSimple} from "../../helpers/common.js";
 import {confirmEmailTemplate} from "../../helpers/templates.js";
-import {Error, passwordformat, emailformat} from "../../helpers/constants.js";
+import {Error, passwordformat, emailformat, cookieOptions} from "../../helpers/constants.js";
 import {transporter} from "../../helpers/mailserver.js";
 
 // Registers a new user in the local database
@@ -129,7 +129,7 @@ exports.login = (req, res, next) => {
                             makeRefTokenPromise(data)
                             .then((refToken)=>{
                                 const authToken =  makeAuthToken(data);
-                                res.cookie("refToken", refToken);
+                                res.cookie("refToken", refToken, cookieOptions);
                                 res.status(200).send(authToken);
                             });
                         }

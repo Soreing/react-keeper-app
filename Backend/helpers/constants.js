@@ -26,6 +26,12 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 
+const cookieOptions = {
+    secure: process.env.NODE_ENV !== "development",
+    httpOnly: true,
+    sameSite: true,
+}
+
 const privateKey  = process.env.SSL ? fs.readFileSync(process.env.SSLKEY_PATH, "utf8")  : "";
 const certificate = process.env.SSL ? fs.readFileSync(process.env.SSLCERT_PATH, "utf8") : "";
 const credentials = {key: privateKey, cert: certificate};
@@ -48,6 +54,7 @@ export {
     emailformat,
     passwordformat,
     corsOptions,
+    cookieOptions,
     privateKey,
     certificate,
     credentials,
