@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import {dbPort, dbName} from "./helpers/constants.js";
+import {dbPort, dbName, dbUser} from "./helpers/constants.js";
 
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`);
+
+mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`, dbUser);
 
 const userSchema = new mongoose.Schema({
     username: {

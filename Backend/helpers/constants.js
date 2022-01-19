@@ -36,6 +36,10 @@ const authTokenTTL = 10;                        // Time To Live expiry in second
 
 const dbPort = process.env.DBPORT;              // Port number of the Mongoose Database
 const dbName = process.env.DBNAME;              // Name of the Mongoose Database
+const dbUser = {                                 // Username and Password to connect to the Database
+    user: process.env.DBUSER,
+    pass: process.env.DBPASS,
+};
 
 const apiPort = process.env.API_PORT;           // Port number the API is running on
 
@@ -52,5 +56,6 @@ export {
     authTokenTTL,
     dbPort,
     dbName,
+    dbUser,
     apiPort,
 }
