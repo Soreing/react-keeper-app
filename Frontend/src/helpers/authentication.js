@@ -128,6 +128,7 @@ function refreshToken(){
             } 
         })
         .catch((err)=>{
+            clearToken();
             reject(err);
         });               
     });
