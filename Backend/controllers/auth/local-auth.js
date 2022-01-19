@@ -97,7 +97,7 @@ exports.verify = (req, res, next) => {
                     redirectWithToken(res, record._id.toString());
                 }
                 else {
-                    redirectSimple("/bad-token");
+                    redirectSimple(res, "/bad-token");
                 }
             }
             else{

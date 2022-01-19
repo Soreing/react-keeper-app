@@ -61,6 +61,6 @@ exports.discordCallback = (req, res, next) => {
     })
     // The user likely rejected the 3rd Party authentication
     .catch((err)=>{
-        redirectSimple("/login");
+        redirectSimple(res, "/login");
     })
 }
