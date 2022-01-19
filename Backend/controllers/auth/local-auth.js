@@ -94,7 +94,7 @@ exports.verify = (req, res, next) => {
         User.findOneAndUpdate(selector, change, (updateErr, record)=>{
             if(!updateErr){
                 if(record){
-                    redirectWithToken(res, record._id.toString());
+                    redirectWithToken(res, record._id.toString(), "/notes");
                 }
                 else {
                     redirectSimple(res, "/bad-token");
