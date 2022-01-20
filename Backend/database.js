@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import {dbPort, dbName, dbUser} from "./helpers/constants.js";
 
 
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`, dbUser);
+mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`, process.env.DBAUTH !== "disabled" ? dbUser : {});
 
 const userSchema = new mongoose.Schema({
     username: {
