@@ -6,17 +6,32 @@ import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import Notes from "../pages/Notes.jsx";
-import { AuthContext } from "../helpers/authentication.js";
+import {AuthContext, getTokenData} from "../helpers/authentication.js";
+import {defaultUserLoginState} from "../helpers/constants.js";
 
 function App(){
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loginState, setloginState] = useState(defaultUserLoginState);
 
     const verificationText = "We sent you an email to verify your account. You need to be verified before you can log in.";
     const badTokenText = "Verification token is either invalid or expired. Please sign up again to get a new token.";
 
+    function setLogin(state) {
+        if(state == true){
+            const userDetails = getTokenData();
+            setloginState({
+                loggedIn: true,
+                name: userDetails.name,
+                id: userDetails.id,
+            })
+        }
+        else {
+            setloginState(defaultUserLoginState)
+        }
+    }
+
     return(
-      <AuthContext.Provider value={{loggedIn, setLoggedIn}}>
+      <AuthContext.Provider value={{loginState, setLogin}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout/>}>

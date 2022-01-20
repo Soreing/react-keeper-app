@@ -8,7 +8,7 @@ const facebookAuth = new ClientOAuth2({
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     accessTokenUri: "https://graph.facebook.com/v12.0/oauth/access_token",
     authorizationUri: "https://www.facebook.com/v12.0/dialog/oauth",
-    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/facebook/callback`,
+    redirectUri: `${process.env.AUTH_SERVER}/auth/facebook/callback`,
     scopes: ["email", "public_profile"]
 });
 
@@ -55,8 +55,13 @@ exports.facebookCallback = (req, res, next) => {
     
                 // Find or Insert the user in the database by their username ("facebook:facebookID")
                 User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
+                    const data = {
+                        id: record._id.toString(),
+                        name: details.data.name,
+                    }
+                    
                     if(!findErr && record){
-                        redirectWithToken(res, record._id.toString(), "/notes");
+                        redirectWithToken(res, data, "/notes");
                     }
                     else {
                         console.log(findErr);

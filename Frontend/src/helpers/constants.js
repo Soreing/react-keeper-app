@@ -19,4 +19,11 @@ const Error = {
     invalidPasswordFormat: "Passwords must be between 8-32 characters and contain digits, lowercase and uppercase letters and a special character ($%@^&;!?.+-*=_)",
 }
 
-export {Error, emailformat, passwordformat, authServerDomain, apiServerDomain}
+// Default logfged in state when the app is opened
+const defaultUserLoginState = {
+    loggedIn: false,
+    name: "",
+    id: "",
+}
+
+export {Error, emailformat, passwordformat, authServerDomain, apiServerDomain, defaultUserLoginState}

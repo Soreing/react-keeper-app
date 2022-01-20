@@ -12,7 +12,7 @@ function Header(){
     function signOut(){
         logout()
         .then(()=>{
-            auth.setLoggedIn(false);
+            auth.setLogin(false);
             navigate("/");
         });
     }
@@ -22,8 +22,8 @@ function Header(){
       <header>
         <h1 className="header-text" onClick={()=>navigate("/")}>Notes App</h1>
           <div className="auth-div">
-            { auth.loggedIn && <p className="small-text">Signed in as<br/>XYZ</p>}
-            { auth.loggedIn 
+            { auth.loginState.loggedIn && <p className="small-text">Signed in as<br/>{auth.loginState.name}</p>}
+            { auth.loginState.loggedIn
               ? <button className="border-button" onClick={signOut}>Log Out</button>
               : <button className="border-button" onClick={()=>{navigate("/login")}}>Log In</button>
             }

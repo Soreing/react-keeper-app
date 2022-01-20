@@ -54,8 +54,8 @@ function makeAuthToken(data){
 }
 
 // Creates a Refresh Token and redirects the request to a page on the webserver
-function redirectWithToken(res, id, route){
-    makeRefTokenPromise({id: id})
+function redirectWithToken(res, data, route){
+    makeRefTokenPromise(data)
     .then((token)=>{
         res.cookie("refToken", token)
         res.redirect(`${process.env.HOSTING_DOMAIN}${route}`);

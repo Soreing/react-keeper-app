@@ -34,7 +34,11 @@ exports.refreshAuthToken = (req, res, next) => {
             // Delete the old token and refrensh the user's ref and auth tokens
             Token.deleteOne(token, (delErr) => {
                 if(!delErr){
-                    const data = {id: decoded.id}
+                    const data = {
+                        id: decoded.id,
+                        name: decoded.name,
+                    };
+                    
                     makeRefTokenPromise(data)
                     .then((refToken)=>{
                         const authToken =  makeAuthToken(data);

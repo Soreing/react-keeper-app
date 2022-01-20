@@ -17,7 +17,7 @@ function Notes(){
     // Code that runs when the session is timed out
     // The user is set to logged out and /login is rendered
     function sessionTimedOut(){
-        auth.setLoggedIn(false);
+        auth.setLogin(false);
         navigate("/login");
     }
 
@@ -76,7 +76,7 @@ function Notes(){
             }
         })
         .then((res)=>{
-            auth.setLoggedIn(true);
+            auth.setLogin(true);
             setNotes(res.data);
         })
         .catch((err)=>{

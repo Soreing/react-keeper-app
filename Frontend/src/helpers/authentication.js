@@ -33,6 +33,17 @@ function decode(jwt){
     }
 }
 
+// Gets the user data inside the auth token
+// (Yes I know.. the the data is not guaranteed to be authentic unless verified.. cry me a river)
+// (Besides, what does it matter? It's used for display purposed only.. you don't complain about inspect element)
+function getTokenData(){
+    const payload = decode(getToken());
+    return {
+        id: payload ? payload.id : "",
+        name: payload ? payload.name : "",
+    }
+}
+
 // A promise that checks if the user is likely authenticated
 // The user is considered authenticated if they have any JWT Auth Token that isn't expired
 // By default the function will attempt to refresh an expired Auth Token
@@ -147,4 +158,4 @@ function expiredTokenIntercept(error){
     });
 }
 
-export {AuthContext, isAuthenticated, login, logout, register, getToken, expiredTokenIntercept};
+export {AuthContext, isAuthenticated, login, logout, register, getToken, getTokenData, expiredTokenIntercept};

@@ -11,7 +11,7 @@ function Home(){
     useEffect(()=>{        
       isAuthenticated()
       .then((valid)=>{
-          auth.setLoggedIn(valid);
+          auth.setLogin(valid);
       });
     }, []);
 
@@ -20,8 +20,8 @@ function Home(){
         <h1 className="title title-text mt5 mb2">Take notes on the web and carry them with you wherever you go!</h1>
 
         <ConditionalLink className="nav-link"
-          to="notes" toEffect={() => auth.setLoggedIn(true)}
-          alt="login" altEffect={() => auth.setLoggedIn(false)}
+          to="notes" toEffect={() => auth.setLogin(true)}
+          alt="login" altEffect={() => auth.setLogin(false)}
           condition={isAuthenticated} conditionType="promise"
         >Start taking notes</ConditionalLink>
         

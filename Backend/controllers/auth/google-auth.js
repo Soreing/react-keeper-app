@@ -8,7 +8,7 @@ const googleAuth = new ClientOAuth2({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     accessTokenUri: "https://oauth2.googleapis.com/token",
     authorizationUri: "https://accounts.google.com/o/oauth2/v2/auth",
-    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/google/callback`,
+    redirectUri: `${process.env.AUTH_SERVER}/auth/google/callback`,
     scopes: ["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
 });
 
@@ -45,8 +45,13 @@ exports.googleCallback = (req, res, next) => {
 
             // Find or Insert the user in the database by their username ("google:googleID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
+                const data = {
+                    id: record._id.toString(),
+                    name: details.data.name,
+                }
+                
                 if(!findErr && record){
-                    redirectWithToken(res, record._id.toString(), "/notes");
+                    redirectWithToken(res, data, "/notes");
                 }
                 else {
                     console.log(findErr);

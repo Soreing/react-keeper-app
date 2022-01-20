@@ -69,7 +69,7 @@ function Register(){
         // Check if the user is logged in when the page is loaded  
         isAuthenticated()
         .then((valid)=>{
-            auth.setLoggedIn(valid);
+            auth.setLogin(valid);
             if(valid){
                 navigate("/notes", { replace: true });
             }

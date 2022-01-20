@@ -8,7 +8,7 @@ const discordAuth = new ClientOAuth2({
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
     accessTokenUri: "https://discord.com/api/oauth2/token",
     authorizationUri: "https://discord.com/api/oauth2/authorize",
-    redirectUri: `${process.env.HOSTING_DOMAIN}/auth/discord/callback`,
+    redirectUri: `${process.env.AUTH_SERVER}/auth/discord/callback`,
     scopes: ["identify", "email"]
 });
 
@@ -45,8 +45,13 @@ exports.discordCallback = (req, res, next) => {
 
             // Find or Insert the user in the database by their username ("discord:discordID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
+                const data = {
+                    id: record._id.toString(),
+                    name: `${details.data.username}#${details.data.discriminator}`,
+                }
+                
                 if(!findErr && record){
-                    redirectWithToken(res, record._id.toString(), "/notes");
+                    redirectWithToken(res, data, "/notes");
                 }
                 else {
                     console.log(findErr);

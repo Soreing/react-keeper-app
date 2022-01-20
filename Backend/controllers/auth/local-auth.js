@@ -93,8 +93,13 @@ exports.verify = (req, res, next) => {
         // If verification is successful, the user is redirected to the notes page
         User.findOneAndUpdate(selector, change, (updateErr, record)=>{
             if(!updateErr){
+                const data = {
+                    id: record._id.toString(),
+                    name: record.username,
+                }
+                
                 if(record){
-                    redirectWithToken(res, record._id.toString(), "/notes");
+                    redirectWithToken(res, data, "/notes");
                 }
                 else {
                     redirectSimple(res, "/bad-token");
@@ -125,7 +130,11 @@ exports.login = (req, res, next) => {
                             res.status(400).send(Error.invalidLogin);
                         }
                         else{
-                            const data = {id: user._id.toString()};
+                            const data = {
+                                id: user._id.toString(),
+                                name: user.username,
+                            };
+
                             makeRefTokenPromise(data)
                             .then((refToken)=>{
                                 const authToken =  makeAuthToken(data);
