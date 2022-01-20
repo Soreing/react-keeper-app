@@ -32,8 +32,8 @@ const cookieOptions = {
     sameSite: true,
 }
 
-const privateKey  = process.env.SSL ? fs.readFileSync(process.env.SSLKEY_PATH, "utf8")  : "";
-const certificate = process.env.SSL ? fs.readFileSync(process.env.SSLCERT_PATH, "utf8") : "";
+const privateKey  = process.env.SSL !== "disabled" ? fs.readFileSync(process.env.SSLKEY_PATH, "utf8")  : "";
+const certificate = process.env.SSL !== "disabled" ? fs.readFileSync(process.env.SSLCERT_PATH, "utf8") : "";
 const credentials = {key: privateKey, cert: certificate};
 
 const tokenSecret  = process.env.TOKENSECRET;   // Secret to sign JWT tokens with

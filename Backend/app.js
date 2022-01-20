@@ -11,7 +11,7 @@ import notes from "./routes/notes.js";
 import pages from "./routes/pages.js";
 
 const app = express();
-const server = process.env.SSL ? 
+const server = process.env.SSL !== "disabled" ? 
       https.createServer(credentials, app) 
     : http.createServer(app);
 
