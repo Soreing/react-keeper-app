@@ -77,30 +77,33 @@ function makeRandomCode(){
 
 
 function verifyEmailAPI(address){
-    return new Promise((resolve, reject)=>{resolve(true)});
-    
-    // return new Promise((resolve, reject)=>{
-    //     axios({
-    //         method: "get",
-    //         url: " https://emailverification.whoisxmlapi.com/api/v2",
-    //         params: {
-    //             apiKey: process.env.WHOISXML_APIKEY,
-    //             emailAddress: address,
-    //         }
-    //     })
-    //     .then((response)=>{
-    //         const details = response.data;
-    //         if(details){
-    //             resolve(details.formatCheck == "true"
-    //                 && details.smtpCheck == "true" 
-    //                 && details.dnsCheck == "true"
-    //             );
-    //         }
-    //     })
-    //     .catch((err)=>{
-    //         reject(err);
-    //     })
-    // })
+    if(process.env.VERIFY_EMAIL_API !== "disabled"){
+        return new Promise((resolve, reject)=>{
+            axios({
+                method: "get",
+                url: " https://emailverification.whoisxmlapi.com/api/v2",
+                params: {
+                    apiKey: process.env.WHOISXML_APIKEY,
+                    emailAddress: address,
+                }
+            })
+            .then((response)=>{
+                const details = response.data;
+                if(details){
+                    resolve(details.formatCheck == "true"
+                        && details.smtpCheck == "true" 
+                        && details.dnsCheck == "true"
+                    );
+                }
+            })
+            .catch((err)=>{
+                reject(err);
+            })
+        })
+    }
+    else {
+        return new Promise((resolve, reject)=>{resolve(true)});
+    }
 }
 
 export {verifyJWTPromise, makeRefTokenPromise, makeAuthToken, redirectWithToken, redirectSimple, makeRandomCode, verifyEmailAPI}
