@@ -45,12 +45,12 @@ exports.discordCallback = (req, res, next) => {
 
             // Find or Insert the user in the database by their username ("discord:discordID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
-                const data = {
-                    id: record._id.toString(),
-                    name: `${details.data.username}#${details.data.discriminator}`,
-                }
-                
                 if(!findErr && record){
+                    const data = {
+                        id: record._id.toString(),
+                        name: `${details.data.username}#${details.data.discriminator}`,
+                    }
+                    
                     redirectWithToken(res, data, "/notes");
                 }
                 else {

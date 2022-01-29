@@ -93,12 +93,12 @@ exports.verify = (req, res, next) => {
         // If verification is successful, the user is redirected to the notes page
         User.findOneAndUpdate(selector, change, (updateErr, record)=>{
             if(!updateErr){
-                const data = {
-                    id: record._id.toString(),
-                    name: record.username,
-                }
-                
                 if(record){
+                    const data = {
+                        id: record._id.toString(),
+                        name: record.username,
+                    }
+                    
                     redirectWithToken(res, data, "/notes");
                 }
                 else {

@@ -45,12 +45,12 @@ exports.googleCallback = (req, res, next) => {
 
             // Find or Insert the user in the database by their username ("google:googleID")
             User.findOneAndUpdate(userQuery, {}, options, (findErr, record)=>{
-                const data = {
-                    id: record._id.toString(),
-                    name: details.data.name,
-                }
-                
                 if(!findErr && record){
+                    const data = {
+                        id: record._id.toString(),
+                        name: details.data.name,
+                    }
+
                     redirectWithToken(res, data, "/notes");
                 }
                 else {
